@@ -1,0 +1,14 @@
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.csprojResolveAssemblyReference.cache
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Properties.Resources.resources
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.csproj.GenerateResource.Cache
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.exe
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.pdb
+c:\users\alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Form_Principal.resources
+C:\Users\Alejandro\documents\visual studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Form_Atributos.resources
+C:\Users\Alejandro\Documents\Visual Studio 2015\Projects\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Datos.resources
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.exe
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.pdb
