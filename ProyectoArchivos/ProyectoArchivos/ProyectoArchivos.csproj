@@ -50,7 +50,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArchIndiceSec.cs" />
     <Compile Include="ArchivoBin.cs" />
+    <Compile Include="ArchivoIndicePri.cs" />
     <Compile Include="Atributo.cs" />
     <Compile Include="Datos.cs">
       <SubType>Form</SubType>
