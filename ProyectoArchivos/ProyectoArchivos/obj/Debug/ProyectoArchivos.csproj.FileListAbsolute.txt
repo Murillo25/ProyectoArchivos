@@ -12,3 +12,12 @@ C:\Users\Alejandro\Documents\Visual Studio 2015\Projects\ProyectoArchivos\Proyec
 C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe.config
 C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.exe
 C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.pdb
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.exe
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\ProyectoArchivos.pdb
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.csprojResolveAssemblyReference.cache
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Datos.resources
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Form_Atributos.resources
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Form_Principal.resources
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.Properties.Resources.resources
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\obj\Debug\ProyectoArchivos.csproj.GenerateResource.Cache
+C:\Users\Alejandro\Source\Repos\dragofairy\ProyectoArchivos\ProyectoArchivos\ProyectoArchivos\bin\Debug\TabStrip.dll
