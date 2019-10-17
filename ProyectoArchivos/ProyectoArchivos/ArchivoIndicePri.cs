@@ -80,6 +80,49 @@ namespace ProyectoArchivos
             GeneraLista(true);
         }
 
+        public bool existe(string cve)
+        {
+            for (int i = 0; i < Listaview.Count; i += 2)
+            {
+                if (Listaview[i + 1] == "-1")
+                {
+                    return false;
+                }else
+                {
+                    if (Listaview[i].Equals(cve))
+                    {
+                        return true; 
+                    }
+                }
+            }
+            return false;
+        }
+
+        public int regresaPos(string cve)
+        {
+            for(int i = 0; i < Listaview.Count; i+=2)
+            {
+                if(Listaview[i+1] == "-1")
+                {
+                    return i;
+                }else
+                {
+                    if (Listaview[i].CompareTo(cve) > 0)
+                    {
+                        return i;
+                    }
+                }
+            }
+            return 0;
+        }
+
+        public void escribeUno(string cve,string dir, int pos)
+        {
+            Listaview.Insert(pos, cve);
+            Listaview.Insert(pos, dir);
+            ActualizaLista();
+        }
+
         private void GeneraLista(bool inicio)
         {
             if (inicio)
@@ -106,8 +149,7 @@ namespace ProyectoArchivos
             for (int i = 1; i < ListaDir[0].Count-aux; i+=2)
             {
                 ListaDir[0][i] = Encoding.ASCII.GetBytes("-1");
-            }
-                
+            } 
         }
 
         private void ActualizaLista()
@@ -153,6 +195,7 @@ namespace ProyectoArchivos
             }
             Archivo.Close();
         }
+
         private void calculaBloque()
         {
             numBloqus = 2040 / (tamañoCve + 8);

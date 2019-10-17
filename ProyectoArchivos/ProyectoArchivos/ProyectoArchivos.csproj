@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ArchIndiceSec.cs" />
     <Compile Include="ArchivoBin.cs" />
+    <Compile Include="archivoDatos.cs" />
     <Compile Include="ArchivoIndicePri.cs" />
     <Compile Include="Atributo.cs" />
     <Compile Include="Datos.cs">
