@@ -37,7 +37,6 @@
             this.datosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.TabDatos = new System.Windows.Forms.TabPage();
-            this.TabIdx = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.bt_eliminaDato = new System.Windows.Forms.Button();
             this.bt_modDato = new System.Windows.Forms.Button();
@@ -48,22 +47,23 @@
             this.Dato = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.cb_SelEnt = new System.Windows.Forms.ComboBox();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
+            this.TabIdx = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.Clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ClaveS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DireccionLista = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.TabDatos.SuspendLayout();
-            this.TabIdx.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_AgregarDat)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.TabIdx.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -75,7 +75,7 @@
             this.datosToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(965, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(868, 24);
             this.menuStrip1.TabIndex = 34;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -149,42 +149,28 @@
             this.TabDatos.TabIndex = 0;
             this.TabDatos.Text = "Datos";
             // 
-            // TabIdx
-            // 
-            this.TabIdx.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TabIdx.Controls.Add(this.label2);
-            this.TabIdx.Controls.Add(this.dataGridView3);
-            this.TabIdx.Controls.Add(this.label1);
-            this.TabIdx.Controls.Add(this.dataGridView2);
-            this.TabIdx.Location = new System.Drawing.Point(4, 22);
-            this.TabIdx.Name = "TabIdx";
-            this.TabIdx.Padding = new System.Windows.Forms.Padding(3);
-            this.TabIdx.Size = new System.Drawing.Size(965, 336);
-            this.TabIdx.TabIndex = 1;
-            this.TabIdx.Text = "Indices";
-            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(415, 82);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(515, 160);
+            this.dataGridView1.Size = new System.Drawing.Size(438, 160);
             this.dataGridView1.TabIndex = 48;
             // 
             // bt_eliminaDato
             // 
-            this.bt_eliminaDato.Location = new System.Drawing.Point(727, 248);
+            this.bt_eliminaDato.Location = new System.Drawing.Point(664, 252);
             this.bt_eliminaDato.Name = "bt_eliminaDato";
-            this.bt_eliminaDato.Size = new System.Drawing.Size(107, 31);
+            this.bt_eliminaDato.Size = new System.Drawing.Size(107, 25);
             this.bt_eliminaDato.TabIndex = 47;
             this.bt_eliminaDato.Text = "Elimina Dato";
             this.bt_eliminaDato.UseVisualStyleBackColor = true;
             // 
             // bt_modDato
             // 
-            this.bt_modDato.Location = new System.Drawing.Point(546, 248);
+            this.bt_modDato.Location = new System.Drawing.Point(483, 252);
             this.bt_modDato.Name = "bt_modDato";
-            this.bt_modDato.Size = new System.Drawing.Size(107, 31);
+            this.bt_modDato.Size = new System.Drawing.Size(107, 25);
             this.bt_modDato.TabIndex = 46;
             this.bt_modDato.Text = "Modifica Dato";
             this.bt_modDato.UseVisualStyleBackColor = true;
@@ -247,27 +233,19 @@
             this.cb_SelEnt.Size = new System.Drawing.Size(130, 21);
             this.cb_SelEnt.TabIndex = 42;
             // 
-            // dataGridView2
+            // TabIdx
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Clave,
-            this.Direccion});
-            this.dataGridView2.Location = new System.Drawing.Point(8, 43);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.Size = new System.Drawing.Size(245, 263);
-            this.dataGridView2.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.label1.Location = new System.Drawing.Point(73, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(121, 18);
-            this.label1.TabIndex = 44;
-            this.label1.Text = "Indice Primario";
+            this.TabIdx.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TabIdx.Controls.Add(this.label2);
+            this.TabIdx.Controls.Add(this.dataGridView3);
+            this.TabIdx.Controls.Add(this.label1);
+            this.TabIdx.Controls.Add(this.dataGridView2);
+            this.TabIdx.Location = new System.Drawing.Point(4, 22);
+            this.TabIdx.Name = "TabIdx";
+            this.TabIdx.Padding = new System.Windows.Forms.Padding(3);
+            this.TabIdx.Size = new System.Drawing.Size(965, 336);
+            this.TabIdx.TabIndex = 1;
+            this.TabIdx.Text = "Indices";
             // 
             // label2
             // 
@@ -291,16 +269,6 @@
             this.dataGridView3.Size = new System.Drawing.Size(409, 263);
             this.dataGridView3.TabIndex = 45;
             // 
-            // Clave
-            // 
-            this.Clave.HeaderText = "Clave";
-            this.Clave.Name = "Clave";
-            // 
-            // Direccion
-            // 
-            this.Direccion.HeaderText = "Dirección de Datos";
-            this.Direccion.Name = "Direccion";
-            // 
             // ClaveS
             // 
             this.ClaveS.HeaderText = "Clave";
@@ -311,12 +279,44 @@
             this.DireccionLista.HeaderText = "Dirección Lista";
             this.DireccionLista.Name = "DireccionLista";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            this.label1.Location = new System.Drawing.Point(73, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(121, 18);
+            this.label1.TabIndex = 44;
+            this.label1.Text = "Indice Primario";
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Clave,
+            this.Direccion});
+            this.dataGridView2.Location = new System.Drawing.Point(8, 43);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(245, 263);
+            this.dataGridView2.TabIndex = 0;
+            // 
+            // Clave
+            // 
+            this.Clave.HeaderText = "Clave";
+            this.Clave.Name = "Clave";
+            // 
+            // Direccion
+            // 
+            this.Direccion.HeaderText = "Dirección de Datos";
+            this.Direccion.Name = "Direccion";
+            // 
             // Datos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(965, 381);
+            this.ClientSize = new System.Drawing.Size(868, 381);
             this.Controls.Add(this.TabControl);
             this.Controls.Add(this.menuStrip1);
             this.Name = "Datos";
@@ -326,12 +326,12 @@
             this.TabControl.ResumeLayout(false);
             this.TabDatos.ResumeLayout(false);
             this.TabDatos.PerformLayout();
-            this.TabIdx.ResumeLayout(false);
-            this.TabIdx.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_AgregarDat)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.TabIdx.ResumeLayout(false);
+            this.TabIdx.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
