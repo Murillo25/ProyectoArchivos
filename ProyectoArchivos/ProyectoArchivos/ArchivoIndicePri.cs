@@ -14,7 +14,7 @@ namespace ProyectoArchivos
         //Nombre del archivo
         private String nombreArch;
         //Listas para guardar datos en las datagridview
-        private List<List<byte[]>> ListaDir;
+        public List<List<byte[]>> ListaDir;
         private List<String> Listaview;
         //Variable del tamaño del archivo
         private int numBloqus;
@@ -82,7 +82,7 @@ namespace ProyectoArchivos
 
         public bool existe(string cve)
         {
-            for (int i = 0; i < Listaview.Count; i += 2)
+            for (int i = 0; i < Listaview.Count-1; i += 2)
             {
                 if (Listaview[i + 1] == "-1")
                 {
@@ -102,14 +102,23 @@ namespace ProyectoArchivos
         {
             for(int i = 0; i < Listaview.Count; i+=2)
             {
-                if(Listaview[i+1] == "-1")
+                if(Listaview[i+1].Replace("\0","") == "-1")
                 {
                     return i;
                 }else
                 {
-                    if (Listaview[i].CompareTo(cve) > 0)
+                    if (tamañoCve == 4)
                     {
-                        return i;
+                        if (Convert.ToInt32(Listaview[i].ToString()).CompareTo(Convert.ToInt32(cve)) > 0)
+                        {
+                            return i;
+                        }
+                    }else
+                    {
+                        if (Listaview[i].ToString().CompareTo(cve) > 0)
+                        {
+                            return i;
+                        }
                     }
                 }
             }
@@ -119,7 +128,7 @@ namespace ProyectoArchivos
         public void escribeUno(string cve,string dir, int pos)
         {
             Listaview.Insert(pos, cve);
-            Listaview.Insert(pos, dir);
+            Listaview.Insert(pos+1, dir);
             ActualizaLista();
         }
 
@@ -148,36 +157,51 @@ namespace ProyectoArchivos
                 aux++;
             for (int i = 1; i < ListaDir[0].Count-aux; i+=2)
             {
-                ListaDir[0][i] = Encoding.ASCII.GetBytes("-1");
+                Encoding.ASCII.GetBytes("-1", 0, "-1".Length, ListaDir[0][i], 0);
             } 
         }
 
-        private void ActualizaLista()
+        public void update()
         {
-            for (int i = 0; i < Listaview1.Count; i++)
+            for(int i = 0; i < Listaview.Count; i++)
             {
-                ListaDir[0][i] = Encoding.ASCII.GetBytes(Listaview1[i]);
+                Listaview[i] = Encoding.ASCII.GetString(ListaDir[0][i]);
             }
         }
 
-        private void escribeLista()
+        public void ActualizaLista()
         {
+            int i;
+            for (i = 0; i < ListaDir[0].Count-2; i++)
+            {
+                 Encoding.ASCII.GetBytes(Listaview1[i],0,Listaview1[i].Length, ListaDir[0][i],0);
+            }
+        }
+
+        public void escribeLista()
+        {
+            ActualizaLista();
             using (Archivo = new FileStream(NombreArch, FileMode.Open))
             {
                 Archivo.Position = 0;
+                int i, j = 0; ;
                 using (BinaryWriter bw = new BinaryWriter(Archivo))
                 {
-                    for (int i = 0; i < ListaDir[0].Count; i++)
+                    for (i = 0; i < numBloqus; i++)
                     {
-                        bw.Write(ListaDir[0][i]);
+                        bw.Write(ListaDir[0][j],0,tamañoCve);
+                        bw.Write(ListaDir[0][j+1], 0, 8);
+                        j += 2;
                     }
+                    bw.Write(ListaDir[0][i], 0, 8);
                 }
             }
             Archivo.Close();
         }
 
-        private void leeLista()
+        public void leeLista()
         {
+            ListaDir[0].Clear();
             using (Archivo = new FileStream(NombreArch, FileMode.Open))
             {
                 Archivo.Position = 0;

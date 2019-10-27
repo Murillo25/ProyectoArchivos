@@ -73,6 +73,14 @@ namespace ProyectoArchivos
 
         public void scribeDato(Int64 direccion, List<string> registro)
         {
+            datosByte.Clear();
+            datosByte.Add(new byte[8]);
+            for (int i = 0; i < ListaAtrib.Count; i++)
+            {
+                datosByte.Add(new byte[ListaAtrib[i].LongAt]);
+            }
+            datosByte.Add(new byte[8]);
+
             datos = new List<string>(registro);
             codifica();
             using (archivo = new FileStream(NombreArch, FileMode.Open))
@@ -95,7 +103,7 @@ namespace ProyectoArchivos
             List<List<string>> todos = new List<List<string>>();
             long aux = -1;
 
-            while (dirPriDat != aux)
+            while (dirPriDat > aux)
             {
                 using (archivo= new FileStream(NombreArch, FileMode.Open))
                 {
@@ -104,11 +112,13 @@ namespace ProyectoArchivos
                     {
                         for(i= 0; i < datosByte.Count; i++)
                         {
-                            datosByte[i]=br.ReadBytes(datosByte[i].Length);
+                            datosByte[i] = br.ReadBytes(datosByte[i].Length);
                         }
                         todos.Add(new List<string>(decodifica()));
                     }
-                    dirPriDat = Convert.ToInt64(todos[j][todos[j].Count-1]);
+                    dirPriDat = Convert.ToInt32(todos[j][todos[j].Count-1]);
+
+
                     j++;
 
                 }
@@ -120,7 +130,7 @@ namespace ProyectoArchivos
             List<string> aux = new List<string>();
             for (int i = 0; i < datosByte.Count; i++)
             {
-                aux.Add(Encoding.ASCII.GetString(datosByte[i]));
+                aux.Add(Encoding.ASCII.GetString(datosByte[i],0,datosByte[i].Length));
             }
             return aux;
         }
@@ -138,14 +148,14 @@ namespace ProyectoArchivos
             datos = new List<string>();
             datosByte = new List<byte[]>();
             datosByte.Add(new byte[8]);
-            datos.Add("-1");
+            datos.Add("");
             for (int i = 0; i < ListaAtrib.Count; i++)
             {
                 datosByte.Add(new byte[ListaAtrib[i].LongAt]);
                 datos.Add("");
             }
             datosByte.Add(new byte[8]);
-            datos.Add("-1");
+            datos.Add("");
         }
         public void ObtenLongitud()
         {

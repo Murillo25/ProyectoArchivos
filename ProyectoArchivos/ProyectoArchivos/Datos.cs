@@ -20,6 +20,7 @@ namespace ProyectoArchivos
         private String ruta, carpeta;
         private List<List<string>> todosDatos;
         private List<Atributo> atributos;
+        private ArchivoIndicePri archIdxP;
         private long dirPrimDat;
         bool clave;
         int campocve;
@@ -132,6 +133,39 @@ namespace ProyectoArchivos
             }
            
         }
+        bool idxP;
+        int campoidx;
+        public void buscaidxP()
+        {
+            for (int i = 0; i < atributos.Count; i++)
+            {
+                if (atributos[i].TipoIdxAt == 2)
+                {
+                    campoidx = i + 1;
+                    idxP = true;
+                    break;
+                }
+            }
+
+        }
+
+        public void actualizaDataidxp()
+        {
+            int i;
+            dataGridView2.Rows.Clear();
+            for(i = 0;i < archIdxP.Listaview1.Count-1; i+=2)
+            {
+                dataGridView2.Rows.Add(archIdxP.Listaview1[i],archIdxP.Listaview1[i+1]);
+            }
+            dataGridView2.Rows.Add(archIdxP.Listaview1[i - 1]);
+        }
+
+        public void insertaidxP(string cve,string dir)
+        {
+            int pos = archIdxP.regresaPos(cve);
+            archIdxP.escribeUno(cve, dir, pos);
+            archIdxP.escribeLista();
+        }
         private void cb_SelEnt_SelectedIndexChanged(object sender, EventArgs e)
         {
             dGV_AgregarDat.Rows.Clear();
@@ -153,6 +187,20 @@ namespace ProyectoArchivos
                 }
             }
             buscacve();
+            buscaidxP();
+            
+            if (idxP)
+            {
+                ruta = carpeta + @"\" + atributos[campoidx - 1].IdHex + ".idx";
+                archIdxP = new ArchivoIndicePri(ruta, atributos[campoidx - 1].LongAt);
+                if (atributos[campoidx - 1].DirIndice == 0)
+                {
+                    archIdxP.leeLista();
+                    archIdxP.update();
+                    actualizaDataidxp();
+                }
+            }
+            todosDatos.Clear();
             todosDatos = archDat.leeDatos(entidades[sele].DirDatos);
             last();
             llenaDgvEst();
@@ -160,7 +208,6 @@ namespace ProyectoArchivos
 
         private void bt_nuevoDato_Click(object sender, EventArgs e)
         {
-            
             generaLista();
             if (borrarDat())
             {
@@ -171,11 +218,38 @@ namespace ProyectoArchivos
                 }
                 entidades[sele].DirDatos = archivoDatos.dir;
             }
+            if (idxP)
+            {
+                if (archIdxP.existe(datosAux[campoidx]))
+                {
+                    MessageBox.Show("Ya existe el indice primario");
+                    return;
+                }
+            }
             archDat.escribeDato(archivoDatos.dir, datosAux);
             todosDatos.Add(datosAux);
             ordena();
+            buscaAux();
+            if (idxP)
+            {
+                insertaidxP(datosAux[campoidx], datosAux[0]);
+                actualizaDataidxp();
+                atributos[campoidx-1].DirIndice = 0;
+                dic.escribeAtributo(atributos[campoidx - 1].DirAt, atributos[campoidx - 1]);
+            }
             dic.escribeEntidad(entidades[sele].DirEnt, entidades[sele]);
             llenaDgvEst();
+        }
+
+        public void buscaAux()
+        {
+            for (int i = 0; i < todosDatos.Count; i++)
+            {
+                if (todosDatos[i][campoidx] == datosAux[campoidx])
+                {
+                    datosAux[0] = todosDatos[i][0];
+                }
+            }
         }
 
         private void llenaDgvEst()
@@ -202,6 +276,12 @@ namespace ProyectoArchivos
             }
             datosAux.Add("-1");
         }
+
+        private void datosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void llenaDatagrid()
         {
             string aux="";
