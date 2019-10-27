@@ -56,7 +56,6 @@ namespace ProyectoArchivos
         {
             datos = new List<string>(registro);
             codifica();
-
             using (archivo = new FileStream(NombreArch, FileMode.Open))
             {
                 archivo.Position = dir;
@@ -72,32 +71,46 @@ namespace ProyectoArchivos
             archivo.Close();
         }
 
+        public void scribeDato(Int64 direccion, List<string> registro)
+        {
+            datos = new List<string>(registro);
+            codifica();
+            using (archivo = new FileStream(NombreArch, FileMode.Open))
+            {
+                archivo.Position = direccion;
+                using (BinaryWriter bw = new BinaryWriter(archivo))
+                {
+                    for (int i = 0; i < datosByte.Count; i++)
+                    {
+                        bw.Write(datosByte[i]);
+                    }
+                }
+            }
+            archivo.Close();
+        }
+
         public List<List<string>> leeDatos(long dirPriDat)
         {
-            int i;
+            int i,j=0;
             List<List<string>> todos = new List<List<string>>();
             long aux = -1;
-            long posicion = dirPriDat;
+
             while (dirPriDat != aux)
             {
-                using (archivo = new FileStream(NombreArch, FileMode.Open))
+                using (archivo= new FileStream(NombreArch, FileMode.Open))
                 {
-                    archivo.Position = posicion;
-                    if (posicion != aux)
+                    archivo.Position = dirPriDat;
+                    using (BinaryReader br = new BinaryReader(archivo))
                     {
-                        using (BinaryReader br = new BinaryReader(archivo))
+                        for(i= 0; i < datosByte.Count; i++)
                         {
-                            datosByte[0] = br.ReadBytes(8);
-                            for (i = 0; i < ListaAtrib.Count; i++)
-                            {
-                                datosByte[i + 1] = br.ReadBytes(ListaAtrib[i].LongAt);
-                            }
-                            datosByte[i + 1] = br.ReadBytes(8); ;
-
+                            datosByte[i]=br.ReadBytes(datosByte[i].Length);
                         }
-                        posicion += longitudtotal;
-                        todos.Add(decodifica());
+                        todos.Add(new List<string>(decodifica()));
                     }
+                    dirPriDat = Convert.ToInt64(todos[j][todos[j].Count-1]);
+                    j++;
+
                 }
             }
             return todos;
@@ -107,24 +120,26 @@ namespace ProyectoArchivos
             List<string> aux = new List<string>();
             for (int i = 0; i < datosByte.Count; i++)
             {
-                aux.Add( Encoding.ASCII.GetString(datosByte[i]));
+                aux.Add(Encoding.ASCII.GetString(datosByte[i]));
             }
             return aux;
         }
         public void codifica()
         {
-            for(int i = 0; i < datosByte.Count; i++)
+            for (int i = 0; i < datosByte.Count; i++)
             {
-                datosByte[i] = Encoding.ASCII.GetBytes(datos[i]);
+                Encoding.ASCII.GetBytes(datos[i],0,datos[i].Length,datosByte[i],0);
             }
         }
+
+       
         public void inicializaDat()
         {
             datos = new List<string>();
             datosByte = new List<byte[]>();
             datosByte.Add(new byte[8]);
             datos.Add("-1");
-            for(int i = 0; i < ListaAtrib.Count; i++)
+            for (int i = 0; i < ListaAtrib.Count; i++)
             {
                 datosByte.Add(new byte[ListaAtrib[i].LongAt]);
                 datos.Add("");
@@ -135,7 +150,7 @@ namespace ProyectoArchivos
         public void ObtenLongitud()
         {
             longitudtotal = 8;
-            for(int i = 0; i < ListaAtrib.Count; i++)
+            for (int i = 0; i < ListaAtrib.Count; i++)
             {
                 longitudtotal += ListaAtrib[i].LongAt;
             }

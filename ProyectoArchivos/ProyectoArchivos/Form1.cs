@@ -337,7 +337,7 @@ namespace ProyectoArchivos
 
         private void datosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Datos nuevo = new Datos(entidadT, archBB);
+            Datos nuevo = new Datos(entidadT, archBB,carpeta);
             this.Hide();
             nuevo.Show();
         }

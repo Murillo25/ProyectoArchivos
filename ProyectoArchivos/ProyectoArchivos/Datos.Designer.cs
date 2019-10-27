@@ -151,9 +151,12 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(415, 82);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(438, 160);
             this.dataGridView1.TabIndex = 48;
             // 
@@ -183,6 +186,7 @@
             this.bt_nuevoDato.TabIndex = 45;
             this.bt_nuevoDato.Text = "Agregar Dato";
             this.bt_nuevoDato.UseVisualStyleBackColor = true;
+            this.bt_nuevoDato.Click += new System.EventHandler(this.bt_nuevoDato_Click);
             // 
             // dGV_AgregarDat
             // 
@@ -232,6 +236,7 @@
             this.cb_SelEnt.Name = "cb_SelEnt";
             this.cb_SelEnt.Size = new System.Drawing.Size(130, 21);
             this.cb_SelEnt.TabIndex = 42;
+            this.cb_SelEnt.SelectedIndexChanged += new System.EventHandler(this.cb_SelEnt_SelectedIndexChanged);
             // 
             // TabIdx
             // 
