@@ -193,7 +193,11 @@ namespace ProyectoArchivos
                         bw.Write(ListaDir[0][j+1], 0, 8);
                         j += 2;
                     }
-                    bw.Write(ListaDir[0][i], 0, 8);
+                    bw.Write(ListaDir[0][j], 0, 8);
+                    if (desperdicio > 0)
+                    {
+                        bw.Write(new byte[desperdicio]);
+                    }
                 }
             }
             Archivo.Close();

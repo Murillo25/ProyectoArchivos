@@ -149,6 +149,20 @@ namespace ProyectoArchivos
 
         }
 
+        public void buscaidxS()
+        {
+            for (int i = 0; i < atributos.Count; i++)
+            {
+                if (atributos[i].TipoIdxAt == 3)
+                {
+                    campoidxS = i + 1;
+                    idxS = true;
+                    break;
+                }
+            }
+
+        }
+
         public void actualizaDataidxp()
         {
             int i;
@@ -160,11 +174,45 @@ namespace ProyectoArchivos
             dataGridView2.Rows.Add(archIdxP.Listaview1[i - 1]);
         }
 
+        public void actualizaDataidxs()
+        {
+            int i;
+            dataGridView3.Rows.Clear();
+            dataGridView4.Rows.Clear();
+            for (i = 0; i < archIdxS.Listaview1.Count - 1; i += 2)
+            {
+                dataGridView3.Rows.Add(archIdxS.Listaview1[i], archIdxS.Listaview1[i + 1]);
+            }
+            dataGridView3.Rows.Add(archIdxS.Listaview1[i - 1]);
+
+            for(i=0; i < archIdxS.muestralistas.Count; i++)
+            {
+                dataGridView4.Columns.Add(dataGridView3.Rows[1].Cells[0].Value.ToString(), dataGridView3.Rows[1].Cells[0].Value.ToString());
+
+                for(int j =0; j < archIdxS.muestralistas[i].Count; j++)
+                {
+                    dataGridView4.Rows.Add(archIdxS.muestralistas[i][j]);
+                }
+            }
+        }
+
         public void insertaidxP(string cve,string dir)
         {
             int pos = archIdxP.regresaPos(cve);
             archIdxP.escribeUno(cve, dir, pos);
             archIdxP.escribeLista();
+        }
+        public void insertaidxS(string cve, string dir)
+        {
+            int pos = archIdxS.regresaPos(cve);
+            int lugar = 2048 * archIdxS.cuentaDatos();
+            if (!archIdxS.existe(cve))
+            {
+                archIdxS.escribeUno(cve, (2048 * (archIdxS.cuentaDatos() + 1)).ToString(), pos);
+                archIdxS.agregaLista();
+            }
+            archIdxS.insertaLista(dir,lugar);
+            archIdxS.escribeLista();
         }
         private void cb_SelEnt_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -188,6 +236,7 @@ namespace ProyectoArchivos
             }
             buscacve();
             buscaidxP();
+            buscaidxS();
             
             if (idxP)
             {
@@ -200,11 +249,25 @@ namespace ProyectoArchivos
                     actualizaDataidxp();
                 }
             }
+            if (idxS)
+            {
+                ruta = carpeta + @"\" + atributos[campoidxS - 1].IdHex + ".idx";
+                archIdxS = new ArchIndiceSec(ruta, atributos[campoidxS - 1].LongAt);
+                if (atributos[campoidxS - 1].DirIndice == 0)
+                {
+                    archIdxS.leeLista();
+                    archIdxS.update();
+                    actualizaDataidxs();
+                }
+            }
             todosDatos.Clear();
             todosDatos = archDat.leeDatos(entidades[sele].DirDatos);
             last();
             llenaDgvEst();
         }
+        ArchIndiceSec archIdxS;
+        bool idxS;
+        int campoidxS;
 
         private void bt_nuevoDato_Click(object sender, EventArgs e)
         {
@@ -215,6 +278,15 @@ namespace ProyectoArchivos
                 using (FileStream archivo = new FileStream(archDat.NombreArch, FileMode.Create))
                 {
                     archivo.Close();
+                }
+                
+                if (idxS)
+                {
+                    File.Delete(archIdxS.NombreArch);
+                    using (FileStream archivo = new FileStream(archIdxS.NombreArch, FileMode.Create))
+                    {
+                        archivo.Close();
+                    }
                 }
                 entidades[sele].DirDatos = archivoDatos.dir;
             }
@@ -237,10 +309,17 @@ namespace ProyectoArchivos
                 atributos[campoidx-1].DirIndice = 0;
                 dic.escribeAtributo(atributos[campoidx - 1].DirAt, atributos[campoidx - 1]);
             }
+            if (idxS)
+            {
+                insertaidxS(datosAux[campoidxS], datosAux[0]);
+                actualizaDataidxs();
+                atributos[campoidxS - 1].DirIndice = 0;
+                dic.escribeAtributo(atributos[campoidxS - 1].DirAt, atributos[campoidxS - 1]);
+            }
             dic.escribeEntidad(entidades[sele].DirEnt, entidades[sele]);
             llenaDgvEst();
         }
-
+        
         public void buscaAux()
         {
             for (int i = 0; i < todosDatos.Count; i++)

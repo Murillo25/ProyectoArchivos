@@ -56,6 +56,7 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.TabDatos.SuspendLayout();
@@ -64,6 +65,7 @@
             this.TabIdx.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -242,6 +244,7 @@
             // TabIdx
             // 
             this.TabIdx.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TabIdx.Controls.Add(this.dataGridView4);
             this.TabIdx.Controls.Add(this.label2);
             this.TabIdx.Controls.Add(this.dataGridView3);
             this.TabIdx.Controls.Add(this.label1);
@@ -272,7 +275,7 @@
             this.DireccionLista});
             this.dataGridView3.Location = new System.Drawing.Point(317, 43);
             this.dataGridView3.Name = "dataGridView3";
-            this.dataGridView3.Size = new System.Drawing.Size(409, 263);
+            this.dataGridView3.Size = new System.Drawing.Size(243, 263);
             this.dataGridView3.TabIndex = 45;
             // 
             // ClaveS
@@ -317,6 +320,14 @@
             this.Direccion.HeaderText = "Dirección de Datos";
             this.Direccion.Name = "Direccion";
             // 
+            // dataGridView4
+            // 
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Location = new System.Drawing.Point(577, 43);
+            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridView4.Size = new System.Drawing.Size(243, 263);
+            this.dataGridView4.TabIndex = 47;
+            // 
             // Datos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -338,6 +349,7 @@
             this.TabIdx.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,5 +385,6 @@
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Clave;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
+        private System.Windows.Forms.DataGridView dataGridView4;
     }
 }
