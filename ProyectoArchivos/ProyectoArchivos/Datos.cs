@@ -20,6 +20,7 @@ namespace ProyectoArchivos
         private String ruta, carpeta;
         private List<List<string>> todosDatos;
         private List<Atributo> atributos;
+        private ArchIndiceSec archidxS;
         private ArchivoIndicePri archIdxP;
         private long dirPrimDat;
         bool clave;
@@ -176,24 +177,31 @@ namespace ProyectoArchivos
 
         public void actualizaDataidxs()
         {
-            int i;
-            dataGridView3.Rows.Clear();
+            
             dataGridView4.Rows.Clear();
-            for (i = 0; i < archIdxS.Listaview1.Count - 1; i += 2)
+            dataGridView4.Columns.Clear();
+            dataGridView3.Rows.Clear();
+            int j = 0;
+            for(int i = 0; i <archidxS.numBloqus; i++)
             {
-                dataGridView3.Rows.Add(archIdxS.Listaview1[i], archIdxS.Listaview1[i + 1]);
+             if (archidxS.bloque_vista[j + 1] == "-1")
+                    break;
+                dataGridView3.Rows.Add(archidxS.bloque_vista[j], archidxS.bloque_vista[j + 1]);
+                j++;
+                j++;
             }
-            dataGridView3.Rows.Add(archIdxS.Listaview1[i - 1]);
-
-            for(i=0; i < archIdxS.muestralistas.Count; i++)
+            int sum;
+            for(int i = 0; i < archidxS.cuentaDatosBP(); i++)
             {
-                dataGridView4.Columns.Add(dataGridView3.Rows[1].Cells[0].Value.ToString(), dataGridView3.Rows[1].Cells[0].Value.ToString());
-
-                for(int j =0; j < archIdxS.muestralistas[i].Count; j++)
+                sum = (i + 1) * (2048);
+                dataGridView4.Columns.Add(sum.ToString(), sum.ToString());
+                for(j = 0; j < 256; j++)
                 {
-                    dataGridView4.Rows.Add(archIdxS.muestralistas[i][j]);
+                    dataGridView4.Rows.Add();
+                    dataGridView4.Rows[j].Cells[i].Value = archidxS.secundario_vista[i][j];
                 }
             }
+            
         }
 
         public void insertaidxP(string cve,string dir)
@@ -202,18 +210,9 @@ namespace ProyectoArchivos
             archIdxP.escribeUno(cve, dir, pos);
             archIdxP.escribeLista();
         }
-        public void insertaidxS(string cve, string dir)
-        {
-            int pos = archIdxS.regresaPos(cve);
-            int lugar = 2048 * archIdxS.cuentaDatos();
-            if (!archIdxS.existe(cve))
-            {
-                archIdxS.escribeUno(cve, (2048 * (archIdxS.cuentaDatos() + 1)).ToString(), pos);
-                archIdxS.agregaLista();
-            }
-            archIdxS.insertaLista(dir,lugar);
-            archIdxS.escribeLista();
-        }
+        
+
+
         private void cb_SelEnt_SelectedIndexChanged(object sender, EventArgs e)
         {
             dGV_AgregarDat.Rows.Clear();
@@ -252,20 +251,30 @@ namespace ProyectoArchivos
             if (idxS)
             {
                 ruta = carpeta + @"\" + atributos[campoidxS - 1].IdHex + ".idx";
-                archIdxS = new ArchIndiceSec(ruta, atributos[campoidxS - 1].LongAt);
-                if (atributos[campoidxS - 1].DirIndice == 0)
+                archidxS = new ArchIndiceSec(ruta, atributos[campoidxS - 1].LongAt);
+                
+                if(atributos[campoidxS-1].DirIndice == 0)
                 {
-                    archIdxS.leeLista();
-                    archIdxS.update();
+                    archidxS.GenerabloquePrin();
+                    archidxS.leeBP();
+                    archidxS.leeSC();
                     actualizaDataidxs();
+                }else
+                {
+                    File.Delete(archidxS.nombreArch);
+                    using (FileStream archivo = new FileStream(archidxS.nombreArch, FileMode.Create))
+                    {
+                        archivo.Close();
+                    }
                 }
+                
             }
             todosDatos.Clear();
             todosDatos = archDat.leeDatos(entidades[sele].DirDatos);
             last();
             llenaDgvEst();
         }
-        ArchIndiceSec archIdxS;
+
         bool idxS;
         int campoidxS;
 
@@ -280,14 +289,7 @@ namespace ProyectoArchivos
                     archivo.Close();
                 }
                 
-                if (idxS)
-                {
-                    File.Delete(archIdxS.NombreArch);
-                    using (FileStream archivo = new FileStream(archIdxS.NombreArch, FileMode.Create))
-                    {
-                        archivo.Close();
-                    }
-                }
+                
                 entidades[sele].DirDatos = archivoDatos.dir;
             }
             if (idxP)
@@ -311,7 +313,9 @@ namespace ProyectoArchivos
             }
             if (idxS)
             {
-                insertaidxS(datosAux[campoidxS], datosAux[0]);
+                archidxS.insertaEnBP(datosAux[campoidxS], datosAux[0]);
+                archidxS.escribeBP();
+                archidxS.escribeSC();
                 actualizaDataidxs();
                 atributos[campoidxS - 1].DirIndice = 0;
                 dic.escribeAtributo(atributos[campoidxS - 1].DirAt, atributos[campoidxS - 1]);

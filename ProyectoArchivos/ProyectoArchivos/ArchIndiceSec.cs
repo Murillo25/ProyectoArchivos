@@ -10,335 +10,337 @@ namespace ProyectoArchivos
     class ArchIndiceSec
     {
         //Variable necesaria para abrir el archivo 
-        private FileStream archivo;
+        public FileStream archivo;
         //Nombre del archivo
-        private String nombreArch;
-        List<List<byte[]>> listas;
-        public List<List<string>> muestralistas;
-        //Listas para guardar datos en las datagridview
-        public List<List<byte[]>> ListaDir;
-        private List<String> Listaview;
-        //Variable del tamaño del archivo
-        private int numBloqus;
-        private int desperdicio;
-        private int tamañoCve;
-        public FileStream Archivo
-        {
-            get
-            {
-                return archivo;
-            }
+        public int numBloqus, tamañoCve, desperdicio;
+        public String nombreArch;
+        public List<byte[]> bloquePrin;
+        public List<string> bloque_vista;
+        public List<List<byte[]>> secundario;
+        public List<List<string>> secundario_vista;
 
-            set
-            {
-                archivo = value;
-            }
-        }
-        public string NombreArch
-        {
-            get
-            {
-                return nombreArch;
-            }
-
-            set
-            {
-                nombreArch = value;
-            }
-        }
-        public int TamañoCve
-        {
-            get
-            {
-                return tamañoCve;
-            }
-
-            set
-            {
-                tamañoCve = value;
-            }
-        }
-        public List<string> Listaview1
-        {
-            get
-            {
-                return Listaview;
-            }
-
-            set
-            {
-                Listaview = value;
-            }
-        }
-        public ArchIndiceSec(string name, int tam)
+        public ArchIndiceSec(String name, int tam)
         {
             nombreArch = name;
             tamañoCve = tam;
             calculaBloque();
-            listas = new List<List<byte[]>>();
-            muestralistas = new List<List<string>>();
-            ListaDir = new List<List<byte[]>>();
-            Listaview1 = new List<string>();
-            ListaDir.Add(new List<byte[]>());
-            GeneraLista(true);
+            bloquePrin = new List<byte[]>();
+            bloque_vista = new List<string>();
+            secundario = new List<List<byte[]>>();
+            secundario_vista = new List<List<string>>();
+           GenerabloquePrin();
         }
 
-        public void agregaLista()
+        public bool existeCve(string clave)
         {
-            listas.Add(new List<byte[]>());
-            muestralistas.Add(new List<string>());
-            for (int i = 0; i < 256; i++)
+            bool ret = false;
+            int j = 0;
+            for (int i = 0; i < numBloqus; i++)
             {
-                listas[listas.Count - 1].Add(new byte[8]);
-                muestralistas[muestralistas.Count - 1].Add("-1");
-            }
-        }
-        public bool existe(string cve)
-        {
-            for (int i = 0; i < Listaview.Count - 1; i += 2)
-            {
-                if (Listaview[i + 1] == "-1")
+                if (bloque_vista[j].Replace("\0", "").Equals(clave))
                 {
-                    return false;
+                    ret = true;
+                    break;
                 }
                 else
                 {
-                    if (Listaview[i].Equals(cve))
-                    {
-                        return true;
-                    }
+                    if (bloque_vista[j + 1].Replace("\0", "").Equals("-1"))
+                        break;
                 }
+                j += 2;
             }
-            return false;
+            return ret;
         }
 
-        public int existepos(string cve)
+        public string regresaDirecSC(string clave)
         {
-            for (int i = 0; i < Listaview.Count - 1; i += 2)
+            int j = 0;
+            string direc = "";
+            for (int i = 0; i < numBloqus; i++)
             {
-                if (Listaview[i].Replace("\0","").Equals(cve))
-                 {
-                        return i;
-                  }
-            }
-            return 0;
-        }
-        public int regresaPos(string cve)
-        {
-            for (int i = 0; i < Listaview.Count; i += 2)
-            {
-                if (Listaview[i + 1].Replace("\0", "") == "-1")
+                if (bloque_vista[j].Replace("\0", "").Equals(clave))
                 {
-                    return i;
+                    direc = bloque_vista[j + 1];
+                    break;
                 }
-                else
+                j += 2;
+            }
+            return direc;
+        }
+
+        public int regresaPosBP(string clave)
+        {
+            int pos = -1;
+            int j = 0;
+            for (int i = 0; i < numBloqus; i++)
+            {
+                if (bloque_vista[j+1].Replace("\0", "").Equals("-1"))
+                {
+                    pos = j;
+                    break;
+                } else
                 {
                     if (tamañoCve == 4)
                     {
-                        if (Convert.ToInt32(Listaview[i].ToString()).CompareTo(Convert.ToInt32(cve)) > 0)
+                        if (Convert.ToInt32(bloque_vista[j].Replace("\0", "").ToString()).CompareTo(Convert.ToInt32(clave)) > 0)
                         {
-                            return i;
+                            pos = j;
+                            break;
                         }
                     }
                     else
                     {
-                        if (Listaview[i].ToString().CompareTo(cve) > 0)
+                        if (bloque_vista[j].Replace("\0", "").ToString().CompareTo(clave) > 0)
                         {
-                            return i;
+                            pos = j;
+                            break;
                         }
                     }
                 }
+                j++;
+                j++;
             }
-            return 0;
-        }
-        public void escribeUno(string cve, string dir, int pos)
-        {
-            Listaview.Insert(pos, cve);
-            Listaview.Insert(pos + 1, dir);
-            ActualizaLista();
+
+            return pos;
         }
 
-        public void insertaLista(string dir,int direc)
+        public void insertaEnBP(string cve, string dirDato)
         {
-
-            for(int i = 0; i < muestralistas.Count; i++)
+            if (existeCve(cve))
             {
-                if (direc < 2048)
+                string dirSC = regresaDirecSC(cve);
+                int lugarSC = Convert.ToInt32(dirSC) / 2048;
+                insertaEnSC(lugarSC, dirDato);
+            } else
+            {
+                int numDatos = cuentaDatosBP() + 1;
+                int poscion = regresaPosBP(cve);
+                bloque_vista.Insert(poscion, cve);
+                bloque_vista.Insert(poscion + 1, (numDatos * 2048).ToString());
+                generaListSC();
+                secundario_vista[secundario_vista.Count - 1][0] = dirDato;
+            }
+
+            actualizaBytesBP();
+            actualizaBytesSC();
+        }
+
+        public void generaListSC()
+        {
+            secundario.Add(new List<byte[]>());
+            secundario_vista.Add(new List<string>());
+            for (int i = 0; i < 256; i++)
+            {
+                secundario[secundario.Count - 1].Add(new byte[8]);
+                secundario_vista[secundario_vista.Count - 1].Add("-1");
+            }
+        }
+
+        public void generaTodasListSC()
+        {
+            for (int i = 0; i < cuentaDatosBP(); i++)
+            {
+                secundario_vista.Add(new List<string>());
+                for (int j = 0; j < 256; j++)
                 {
-                    muestralistas[0][i] = dir;
+                    secundario_vista[i].Add("-1");
+                }
+            }
+        }
+
+        public void insertaEnSC(int pos, string dirDato)
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                if (secundario_vista[pos-1][i].Replace("\0", "").Equals("-1"))
+                {
+                    secundario_vista[pos-1][i] = dirDato;
                     break;
                 }
-                else
-                {
-                    if (muestralistas[(direc / 2048-1)][i].Replace("\0", "") == "-1")
-                    {
-                        muestralistas[(direc / 2048-1)][i] = dir;
-                        break;
-                    }
-                }
             }
         }
 
-        private void GeneraLista(bool inicio)
+        public int generaDirecSC()
         {
-            if (inicio)
+            return ((cuentaDatosBP() + 1) * 2048);
+        }
+
+        public int cuentaDatosBP()
+        {
+            int j = 1;
+            int numdatos = 0;
+            for (int i = 0; i < numBloqus; i++)
             {
-                for (int i = 0; i < numBloqus; i++)
+                if (bloque_vista[j].Replace("\0", "").Equals("-1"))
                 {
-                    ListaDir[0].Add(new byte[tamañoCve]);
-                    Listaview1.Add("");
-                    ListaDir[0].Add(new byte[8]);
-                    Listaview1.Add("-1");
+                    break;
+                } else
+                {
+                    numdatos++;
                 }
-                ListaDir[0].Add(new byte[8]);
-                Listaview1.Add("-1");
-                if (desperdicio > 0)
-                    ListaDir[0].Add(new byte[desperdicio]);
+                j++;
+                j++;
             }
+            return numdatos;
         }
 
-        private void llenaLista()
+        public void GenerabloquePrin()
         {
-            int aux = 0;
+            for (int i = 0; i < numBloqus; i++)
+            {
+                bloquePrin.Add(new byte[tamañoCve]);
+                bloque_vista.Add("");
+                bloquePrin.Add(new byte[8]);
+                bloque_vista.Add("-1");
+            }
+            bloquePrin.Add(new byte[8]);
             if (desperdicio > 0)
-                aux++;
-            for (int i = 1; i < ListaDir[0].Count - aux; i += 2)
-            {
-                Encoding.ASCII.GetBytes("-1", 0, "-1".Length, ListaDir[0][i], 0);
-            }
+                bloquePrin.Add(new byte[desperdicio]);
         }
 
-        public void update()
-        {
-            for (int i = 0; i < Listaview.Count; i++)
-            {
-                Listaview[i] = Encoding.ASCII.GetString(ListaDir[0][i]);
-            }
-
-            for (int i = 0; i < listas.Count; i++)
-            {
-                for (int j = 0; j < listas[i].Count; j++)
-                {
-                    muestralistas[i][j] = Encoding.ASCII.GetString(listas[i][j]);
-                }
-            }
-        }
-
-        public void ActualizaLista()
-        {
-            int i;
-            for (i = 0; i < ListaDir[0].Count - 2; i++)
-            {
-                Encoding.ASCII.GetBytes(Listaview1[i], 0, Listaview1[i].Length, ListaDir[0][i], 0);
-            }
-        }
-
-        public void ActualizaListas()
-        {
-            int i,j;
-            for (i = 0; i < listas.Count ; i++)
-            {
-                for (j = 0; j < listas[i].Count; j++)
-                {
-                    Encoding.ASCII.GetBytes(muestralistas[i][j], 0, muestralistas[i][j].Length, listas[i][j], 0);
-                }
-            }
-        }
-
-        public void escribeLista()
-        {
-            ActualizaLista();
-            using (Archivo = new FileStream(NombreArch, FileMode.Open))
-            {
-                Archivo.Position = 0;
-                int i, j = 0; ;
-                using (BinaryWriter bw = new BinaryWriter(Archivo))
-                {
-                    for (i = 0; i < numBloqus; i++)
-                    {
-                        bw.Write(ListaDir[0][j], 0, tamañoCve);
-                        bw.Write(ListaDir[0][j + 1], 0, 8);
-                        j += 2;
-                    }
-                    bw.Write(ListaDir[0][j], 0, 8);
-                    if (desperdicio > 0)
-                        bw.Write(new byte[desperdicio]);
-
-                    for(i = 0; i < listas.Count; i++)
-                    {
-                        for (j = 0; j < listas[i].Count; j++)
-                        {
-                            bw.Write(listas[i][j]);
-                        }
-                    }
-                }
-            }
-            Archivo.Close();
-        }
-
-        public void leeLista()
-        {
-            ListaDir[0].Clear();
-            listas.Clear();
-            using (Archivo = new FileStream(NombreArch, FileMode.Open))
-            {
-                Archivo.Position = 0;
-                using (BinaryReader rw = new BinaryReader(Archivo))
-                {
-                    for (int i = 0; i < numBloqus; i++)
-                    {
-                        ListaDir[0].Add(rw.ReadBytes(tamañoCve));
-                        ListaDir[0].Add(rw.ReadBytes(8));
-                    }
-                    ListaDir[0].Add(rw.ReadBytes(8));
-                    if (desperdicio > 0)
-                        ListaDir[0].Add(rw.ReadBytes(8));
-                }
-            }
-            Archivo.Close();
-        }
-
-        public void leeListaa()
-        {
-            listas.Clear();
-            using (Archivo = new FileStream(NombreArch, FileMode.Open))
-            {
-                Archivo.Position = 2048;
-                using (BinaryReader rw = new BinaryReader(Archivo))
-                {
-                    for (int i = 0; i < cuentaDatos(); i++)
-                    {
-                        listas.Add(new List<byte[]>());
-                        for (int j = 0; j < 256; j++)
-                        {
-                            listas[i].Add(rw.ReadBytes(8));
-                        }
-                    }
-                }
-            }
-            Archivo.Close();
-        }
-
-        public int cuentaDatos()
-        {
-            int cnt = 0;
-
-            for(int i = 1; i < numBloqus; i+=2)
-            {
-                if(Listaview[i].Replace("\0","").Equals("-1"))
-                {
-                    break;
-                }else
-                {
-                    cnt++;
-                }
-            }
-            return cnt;
-        }
         private void calculaBloque()
         {
             numBloqus = 2040 / (tamañoCve + 8);
             desperdicio = 2040 % (tamañoCve + 8);
+        }
+
+        public void escribeBP()
+        {
+            actualizaBytesBP();
+            using (archivo = new FileStream(nombreArch, FileMode.Open))
+            {
+                archivo.Position = 0;
+                int i, j = 0; ;
+                using (BinaryWriter bw = new BinaryWriter(archivo))
+                {
+                    for (i = 0; i < numBloqus; i++)
+                    {
+                        bw.Write(bloquePrin[j], 0, tamañoCve);
+                        bw.Write(bloquePrin[j + 1], 0, 8);
+                        j += 2;
+                    }
+                    bw.Write(bloquePrin[j], 0, 8);
+                    if (desperdicio > 0)
+                    {
+                        bw.Write(new byte[desperdicio]);
+                    }
+                }
+            }
+            archivo.Close();
+        }
+
+        public void actualizaBytesBP()
+        {
+            int j = 0;
+            for (int i = 0; i < numBloqus; i++)
+            {
+                Encoding.ASCII.GetBytes(bloque_vista[j], 0, bloque_vista[j].Length, bloquePrin[j], 0);
+                j++;
+                Encoding.ASCII.GetBytes(bloque_vista[j], 0, bloque_vista[j].Length, bloquePrin[j], 0);
+                j++;
+            }
+        }
+
+        public void actualizaStringBP()
+        {
+            int j = 0;
+            for (int i = 0; i < numBloqus; i++)
+            {
+                bloque_vista[j] = Encoding.ASCII.GetString(bloquePrin[j]);
+                j++;
+                bloque_vista[j] = Encoding.ASCII.GetString(bloquePrin[j]);
+                j++;
+            }
+        }
+
+        public void leeBP()
+        {
+            int j = 0;
+            using (archivo = new FileStream(nombreArch, FileMode.Open))
+            {
+                archivo.Position = 0;
+                using (BinaryReader rw = new BinaryReader(archivo))
+                {
+                    for (int i = 0; i < numBloqus; i++)
+                    {
+                        bloquePrin[j]= rw.ReadBytes(tamañoCve);
+                        bloquePrin[j+1]=rw.ReadBytes(8);
+                        j += 2;
+                    }
+                    bloquePrin[j] = rw.ReadBytes(8);
+                    j++;
+                    if (desperdicio > 0)
+                       bloquePrin[j] =rw.ReadBytes(8);
+                }
+            }
+            archivo.Close();
+            actualizaStringBP();
+        }
+
+        public void actualizaBytesSC()
+        {
+            for (int i = 0; i < cuentaDatosBP(); i++)
+            {
+                for (int j = 0; j < 256; j++)
+                {
+                    Encoding.ASCII.GetBytes(secundario_vista[i][j], 0, secundario_vista[i][j].Length, secundario[i][j], 0);
+                }
+            }
+        }
+
+        public void actualizaStringSC()
+        {
+            for (int i = 0; i < cuentaDatosBP(); i++)
+            {
+                for (int j = 0; j < 256; j++)
+                {
+                    secundario_vista[i][j] = Encoding.ASCII.GetString(secundario[i][j]);
+                }
+            }
+        }
+
+        public void escribeSC()
+        {
+            actualizaBytesSC();
+            using (archivo = new FileStream(nombreArch, FileMode.Open))
+            {
+                archivo.Position = 2048;
+                using (BinaryWriter bw = new BinaryWriter(archivo))
+                {
+                    for(int i = 0; i < cuentaDatosBP(); i++)
+                    {
+                        for (int j = 0; j < 256; j++)
+                        {
+                            bw.Write(secundario[i][j]);
+                        }
+                    }
+                }
+            }
+            archivo.Close();
+        }
+
+        public void leeSC()
+        {
+            secundario.Clear();
+            secundario_vista.Clear();
+            using (archivo = new FileStream(nombreArch, FileMode.Open))
+            {
+                archivo.Position = 2048;
+                using (BinaryReader rw = new BinaryReader(archivo))
+                {
+                    for (int i = 0; i < cuentaDatosBP(); i++)
+                    {
+                        secundario.Add(new List<byte[]>());
+                        for (int j = 0; j < 256; j++)
+                        {
+                            secundario[i].Add(rw.ReadBytes(8));
+                        }
+                    }
+                }
+            }
+            archivo.Close();
+            generaTodasListSC();
+            actualizaStringSC();
         }
     }
 }
