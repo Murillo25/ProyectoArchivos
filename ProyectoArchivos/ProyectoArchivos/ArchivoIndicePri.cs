@@ -165,6 +165,7 @@ namespace ProyectoArchivos
         {
             for(int i = 0; i < Listaview.Count; i++)
             {
+                Listaview[i] = "";
                 Listaview[i] = Encoding.ASCII.GetString(ListaDir[0][i]);
             }
         }
@@ -174,7 +175,15 @@ namespace ProyectoArchivos
             int i;
             for (i = 0; i < ListaDir[0].Count-2; i++)
             {
-                 Encoding.ASCII.GetBytes(Listaview1[i],0,Listaview1[i].Length, ListaDir[0][i],0);
+                 Listaview[i] = Listaview[i].Replace("\0", "");
+                if (i % 2 == 0)
+                {
+                    ListaDir[0][i] = new byte[tamañoCve];
+                }else
+                {
+                    ListaDir[0][i] = new byte[8];
+                }
+                 Encoding.ASCII.GetBytes(Listaview[i],0,Listaview[i].Length, ListaDir[0][i],0);
             }
         }
 
@@ -229,6 +238,21 @@ namespace ProyectoArchivos
             numBloqus = 2040 / (tamañoCve + 8);
             desperdicio = 2040 % (tamañoCve + 8);
         }
+
+        public void eliminarDato(string cve,string dirDato)
+        {
+            int j = 0;
+            for(int i = 0; i < Listaview.Count; i++)
+            {
+                Listaview[i] = Listaview[i].Replace("\0", "");
+            }
+            Listaview.Remove(cve);
+            Listaview.Add("");
+            Listaview.Remove(dirDato);
+            Listaview.Add("-1");
+            escribeLista();
+        }
+
 
     }
 }

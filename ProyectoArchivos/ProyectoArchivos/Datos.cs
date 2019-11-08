@@ -23,6 +23,7 @@ namespace ProyectoArchivos
         private ArchIndiceSec archidxS;
         private ArchivoIndicePri archIdxP;
         private long dirPrimDat;
+        private int rowIdx;
         bool clave;
         int campocve;
 
@@ -49,7 +50,7 @@ namespace ProyectoArchivos
             List<string> aux = new List<string>();
             for (int i = 0; i < todosDatos.Count; i++)
             {
-                aux.Add(todosDatos[i][campocve]);
+                aux.Add(todosDatos[i][campocve].Replace("\0",""));
             }
             int antDat = -1;
             aux.Sort();
@@ -75,7 +76,18 @@ namespace ProyectoArchivos
                         }
                     }
                 }
-            }else
+
+               for(int i = 0; i < aux.Count; i++)
+                {
+                    if(aux[aux.Count-1].Replace("\0","") == todosDatos[i][campocve].Replace("\0", ""))
+                    {
+                        todosDatos[i][todosDatos[i].Count - 1] = "-1";
+                        break;
+                    }
+                }
+
+            }
+            else
             {
                 for (int j = 0; j < todosDatos.Count; j++)
                 {
@@ -177,15 +189,16 @@ namespace ProyectoArchivos
 
         public void actualizaDataidxs()
         {
-            
             dataGridView4.Rows.Clear();
             dataGridView4.Columns.Clear();
             dataGridView3.Rows.Clear();
             int j = 0;
             for(int i = 0; i <archidxS.numBloqus; i++)
             {
-             if (archidxS.bloque_vista[j + 1] == "-1")
+                if (archidxS.bloque_vista[j + 1].Replace("\0","") == "-1")
+                {
                     break;
+                }
                 dataGridView3.Rows.Add(archidxS.bloque_vista[j], archidxS.bloque_vista[j + 1]);
                 j++;
                 j++;
@@ -288,8 +301,24 @@ namespace ProyectoArchivos
                 {
                     archivo.Close();
                 }
-                
-                
+                if (idxP)
+                {
+                    File.Delete(archIdxP.NombreArch);
+                    using (FileStream archivo = new FileStream(archIdxP.NombreArch, FileMode.Create))
+                    {
+                        archivo.Close();
+                    }
+                }
+
+                if (idxP)
+                {
+                    File.Delete(archidxS.nombreArch);
+                    using (FileStream archivo = new FileStream(archidxS.nombreArch, FileMode.Create))
+                    {
+                        archivo.Close();
+                    }
+                }
+
                 entidades[sele].DirDatos = archivoDatos.dir;
             }
             if (idxP)
@@ -363,6 +392,129 @@ namespace ProyectoArchivos
         private void datosToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        string rowselec="";
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            
+        }
+        int cntmodifi;
+        private void bt_modDato_Click(object sender, EventArgs e)
+        {
+            int i;
+            int cnt = 0;
+            rowselec = dataGridView1.SelectedCells[0].Value.ToString().Replace("\0", "");
+            for (i = 0; i < todosDatos.Count; i++)
+            {
+                if (todosDatos[i][0].Replace("\0", "").Equals(rowselec))
+                {
+                    for(int j = 1; j < todosDatos[i].Count-1; j++)
+                    {
+                        dGV_AgregarDat.Rows[cnt].Cells[2].Value = todosDatos[i][j];
+                        cnt++;
+                    }
+                    cntmodifi = i;
+                    break;
+                }
+            }
+        }
+
+        private void bt_eliminaDato_Click(object sender, EventArgs e)
+        {
+            string borra = "";
+            int i;
+            buscacve();
+            rowselec = dataGridView1.SelectedCells[0].Value.ToString().Replace("\0","");
+            for(i =0; i<todosDatos.Count; i++)
+            {
+                if (todosDatos[i][0].Replace("\0", "").Equals(rowselec))
+                {
+                    if (idxP)
+                    {
+                        archIdxP.eliminarDato(todosDatos[i][campoidx].Replace("\0", ""), todosDatos[i][0].Replace("\0", ""));
+                        actualizaDataidxp();
+                    }
+
+                    if (idxS)
+                    {
+                        archidxS.eliminarDato(todosDatos[i][campoidxS],todosDatos[i][0]);
+                        actualizaDataidxs();
+                    }
+                    borra = todosDatos[i][0].Replace("\0", "");
+                    todosDatos.RemoveAt(i);
+                    break;
+                }
+            }
+          
+            for (i = 0; i < todosDatos.Count; i++)
+            {
+                if (todosDatos[i][todosDatos[i].Count-1].Replace("\0", "") == borra)
+                {
+                    todosDatos[i][todosDatos[i].Count - 1] = "-1";
+                    break;
+                }
+            }
+            if(todosDatos.Count == 0)
+            {
+                selEntidad.DirDatos = -1;
+            }
+            ordena();           
+            llenaDgvEst();       
+       }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            buscaidxP();
+            buscaidxS();
+            buscacve();
+            rowselec = dataGridView1.SelectedCells[0].Value.ToString().Replace("\0", "");
+            for (int i=0; i < todosDatos.Count; i++)
+            {
+                if (todosDatos[i][0].Replace("\0", "").Equals(rowselec))
+                {
+                    if (idxP)
+                    {
+                        archIdxP.eliminarDato(todosDatos[i][campoidx].Replace("\0", ""), todosDatos[i][0].Replace("\0", ""));
+                        actualizaDataidxp();
+                    }
+
+                    if (idxS)
+                    {
+                        archidxS.eliminarDato(todosDatos[i][campoidxS], todosDatos[i][0]);
+                        actualizaDataidxs();
+                    }
+                    break;
+                }
+            }
+
+            for (int i=0; i < todosDatos[cntmodifi].Count - 2; i++)
+            {
+                todosDatos[cntmodifi][i+1] = dGV_AgregarDat.Rows[i].Cells[2].Value.ToString();
+            }
+            datosAux = new List<string>(todosDatos[cntmodifi]);
+            archDat.escribeDato(Convert.ToInt64(todosDatos[cntmodifi][0]), todosDatos[cntmodifi]);
+            
+            if (idxP)
+            {
+                insertaidxP(datosAux[campoidx], datosAux[0]);
+                actualizaDataidxp();
+                atributos[campoidx - 1].DirIndice = 0;
+                dic.escribeAtributo(atributos[campoidx - 1].DirAt, atributos[campoidx - 1]);
+            }
+            if (idxS)
+            {
+                archidxS.insertaEnBP(datosAux[campoidxS], datosAux[0]);
+                archidxS.escribeBP();
+                archidxS.escribeSC();
+                actualizaDataidxs();
+                atributos[campoidxS - 1].DirIndice = 0;
+                dic.escribeAtributo(atributos[campoidxS - 1].DirAt, atributos[campoidxS - 1]);
+            }
+
+            ordena();
+            
+            llenaDgvEst();
         }
 
         private void llenaDatagrid()

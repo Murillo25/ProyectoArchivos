@@ -48,6 +48,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cb_SelEnt = new System.Windows.Forms.ComboBox();
             this.TabIdx = new System.Windows.Forms.TabPage();
+            this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
             this.ClaveS = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,16 +57,16 @@
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.Clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridView4 = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.TabDatos.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dGV_AgregarDat)).BeginInit();
             this.TabIdx.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -138,6 +139,7 @@
             // TabDatos
             // 
             this.TabDatos.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.TabDatos.Controls.Add(this.button1);
             this.TabDatos.Controls.Add(this.dataGridView1);
             this.TabDatos.Controls.Add(this.bt_eliminaDato);
             this.TabDatos.Controls.Add(this.bt_modDato);
@@ -162,6 +164,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(438, 160);
             this.dataGridView1.TabIndex = 48;
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // bt_eliminaDato
             // 
@@ -171,6 +174,7 @@
             this.bt_eliminaDato.TabIndex = 47;
             this.bt_eliminaDato.Text = "Elimina Dato";
             this.bt_eliminaDato.UseVisualStyleBackColor = true;
+            this.bt_eliminaDato.Click += new System.EventHandler(this.bt_eliminaDato_Click);
             // 
             // bt_modDato
             // 
@@ -180,10 +184,11 @@
             this.bt_modDato.TabIndex = 46;
             this.bt_modDato.Text = "Modifica Dato";
             this.bt_modDato.UseVisualStyleBackColor = true;
+            this.bt_modDato.Click += new System.EventHandler(this.bt_modDato_Click);
             // 
             // bt_nuevoDato
             // 
-            this.bt_nuevoDato.Location = new System.Drawing.Point(155, 252);
+            this.bt_nuevoDato.Location = new System.Drawing.Point(100, 252);
             this.bt_nuevoDato.Name = "bt_nuevoDato";
             this.bt_nuevoDato.Size = new System.Drawing.Size(107, 31);
             this.bt_nuevoDato.TabIndex = 45;
@@ -256,6 +261,14 @@
             this.TabIdx.TabIndex = 1;
             this.TabIdx.Text = "Indices";
             // 
+            // dataGridView4
+            // 
+            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView4.Location = new System.Drawing.Point(577, 43);
+            this.dataGridView4.Name = "dataGridView4";
+            this.dataGridView4.Size = new System.Drawing.Size(243, 263);
+            this.dataGridView4.TabIndex = 47;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -320,13 +333,15 @@
             this.Direccion.HeaderText = "Dirección de Datos";
             this.Direccion.Name = "Direccion";
             // 
-            // dataGridView4
+            // button1
             // 
-            this.dataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView4.Location = new System.Drawing.Point(577, 43);
-            this.dataGridView4.Name = "dataGridView4";
-            this.dataGridView4.Size = new System.Drawing.Size(243, 263);
-            this.dataGridView4.TabIndex = 47;
+            this.button1.Location = new System.Drawing.Point(339, 255);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(107, 25);
+            this.button1.TabIndex = 49;
+            this.button1.Text = "Aceptar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Datos
             // 
@@ -347,9 +362,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dGV_AgregarDat)).EndInit();
             this.TabIdx.ResumeLayout(false);
             this.TabIdx.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -386,5 +401,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Clave;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
         private System.Windows.Forms.DataGridView dataGridView4;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -28,7 +28,7 @@ namespace ProyectoArchivos
             bloque_vista = new List<string>();
             secundario = new List<List<byte[]>>();
             secundario_vista = new List<List<string>>();
-           GenerabloquePrin();
+            GenerabloquePrin();
         }
 
         public bool existeCve(string clave)
@@ -74,7 +74,7 @@ namespace ProyectoArchivos
             int j = 0;
             for (int i = 0; i < numBloqus; i++)
             {
-                if (bloque_vista[j+1].Replace("\0", "").Equals("-1"))
+                if (bloque_vista[j + 1].Replace("\0", "").Equals("-1"))
                 {
                     pos = j;
                     break;
@@ -152,9 +152,9 @@ namespace ProyectoArchivos
         {
             for (int i = 0; i < 256; i++)
             {
-                if (secundario_vista[pos-1][i].Replace("\0", "").Equals("-1"))
+                if (secundario_vista[pos - 1][i].Replace("\0", "").Equals("-1"))
                 {
-                    secundario_vista[pos-1][i] = dirDato;
+                    secundario_vista[pos - 1][i] = dirDato;
                     break;
                 }
             }
@@ -234,8 +234,10 @@ namespace ProyectoArchivos
             int j = 0;
             for (int i = 0; i < numBloqus; i++)
             {
+                bloquePrin[j] = new byte[tamañoCve];
                 Encoding.ASCII.GetBytes(bloque_vista[j], 0, bloque_vista[j].Length, bloquePrin[j], 0);
                 j++;
+                bloquePrin[j] = new byte[8];
                 Encoding.ASCII.GetBytes(bloque_vista[j], 0, bloque_vista[j].Length, bloquePrin[j], 0);
                 j++;
             }
@@ -246,8 +248,10 @@ namespace ProyectoArchivos
             int j = 0;
             for (int i = 0; i < numBloqus; i++)
             {
+                bloque_vista[j] = "";
                 bloque_vista[j] = Encoding.ASCII.GetString(bloquePrin[j]);
                 j++;
+                bloque_vista[j] = "";
                 bloque_vista[j] = Encoding.ASCII.GetString(bloquePrin[j]);
                 j++;
             }
@@ -263,14 +267,14 @@ namespace ProyectoArchivos
                 {
                     for (int i = 0; i < numBloqus; i++)
                     {
-                        bloquePrin[j]= rw.ReadBytes(tamañoCve);
-                        bloquePrin[j+1]=rw.ReadBytes(8);
+                        bloquePrin[j] = rw.ReadBytes(tamañoCve);
+                        bloquePrin[j + 1] = rw.ReadBytes(8);
                         j += 2;
                     }
                     bloquePrin[j] = rw.ReadBytes(8);
                     j++;
                     if (desperdicio > 0)
-                       bloquePrin[j] =rw.ReadBytes(8);
+                        bloquePrin[j] = rw.ReadBytes(8);
                 }
             }
             archivo.Close();
@@ -283,6 +287,7 @@ namespace ProyectoArchivos
             {
                 for (int j = 0; j < 256; j++)
                 {
+                    secundario[i][j] = new byte[8];
                     Encoding.ASCII.GetBytes(secundario_vista[i][j], 0, secundario_vista[i][j].Length, secundario[i][j], 0);
                 }
             }
@@ -294,6 +299,7 @@ namespace ProyectoArchivos
             {
                 for (int j = 0; j < 256; j++)
                 {
+                    secundario_vista[i][j] = "";
                     secundario_vista[i][j] = Encoding.ASCII.GetString(secundario[i][j]);
                 }
             }
@@ -307,7 +313,7 @@ namespace ProyectoArchivos
                 archivo.Position = 2048;
                 using (BinaryWriter bw = new BinaryWriter(archivo))
                 {
-                    for(int i = 0; i < cuentaDatosBP(); i++)
+                    for (int i = 0; i < cuentaDatosBP(); i++)
                     {
                         for (int j = 0; j < 256; j++)
                         {
@@ -341,6 +347,27 @@ namespace ProyectoArchivos
             archivo.Close();
             generaTodasListSC();
             actualizaStringSC();
+        }
+        
+        public void eliminarDato(string clave,string dire)
+        {
+            string direc = "";
+            for (int i = 0; i < bloque_vista.Count; i += 2)
+            {
+                if (bloque_vista[i].Replace("\0", "").Equals(clave.Replace("\0", "")))
+                {
+                    direc = bloque_vista[i+1];
+                    break;
+                }
+            }
+            int dir = Convert.ToInt32(direc) / 2048;
+            secundario_vista[dir - 1].Remove(dire);
+            secundario_vista[dir - 1].Add("-1");
+            actualizaBytesBP();
+            actualizaBytesSC();
+            escribeBP();
+            escribeSC();
+
         }
     }
 }
