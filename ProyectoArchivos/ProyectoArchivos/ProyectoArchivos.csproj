@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArboolB+.cs" />
     <Compile Include="ArchIndiceSec.cs" />
     <Compile Include="ArchivoBin.cs" />
     <Compile Include="archivoDatos.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="NodoArbol.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Datos.resx">
