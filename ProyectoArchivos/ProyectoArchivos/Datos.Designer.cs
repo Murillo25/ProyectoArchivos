@@ -59,12 +59,34 @@
             this.Clave = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.dataGridView5 = new System.Windows.Forms.DataGridView();
-            this.dataGridView6 = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
+            this.dataGridView5 = new System.Windows.Forms.DataGridView();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tipooo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dirnodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dat1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dat2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dat3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dat4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ap5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView6 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView7 = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.TabDatos.SuspendLayout();
@@ -76,7 +98,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -140,6 +164,7 @@
             this.TabControl.Controls.Add(this.TabDatos);
             this.TabControl.Controls.Add(this.TabIdx);
             this.TabControl.Controls.Add(this.tabPage1);
+            this.TabControl.Controls.Add(this.tabPage2);
             this.TabControl.Location = new System.Drawing.Point(0, 27);
             this.TabControl.Name = "TabControl";
             this.TabControl.SelectedIndex = 0;
@@ -151,8 +176,6 @@
             // TabDatos
             // 
             this.TabDatos.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.TabDatos.Controls.Add(this.textBox1);
-            this.TabDatos.Controls.Add(this.label6);
             this.TabDatos.Controls.Add(this.button1);
             this.TabDatos.Controls.Add(this.dataGridView1);
             this.TabDatos.Controls.Add(this.bt_eliminaDato);
@@ -360,73 +383,240 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.dataGridView6);
             this.tabPage1.Controls.Add(this.dataGridView5);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(860, 336);
             this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Arbol B+";
-            // 
-            // dataGridView5
-            // 
-            this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView5.Location = new System.Drawing.Point(18, 43);
-            this.dataGridView5.Name = "dataGridView5";
-            this.dataGridView5.Size = new System.Drawing.Size(412, 277);
-            this.dataGridView5.TabIndex = 0;
-            // 
-            // dataGridView6
-            // 
-            this.dataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView6.Location = new System.Drawing.Point(442, 43);
-            this.dataGridView6.Name = "dataGridView6";
-            this.dataGridView6.Size = new System.Drawing.Size(412, 277);
-            this.dataGridView6.TabIndex = 1;
+            this.tabPage1.Text = "Arbol B+ Primario";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.label3.Location = new System.Drawing.Point(161, 13);
+            this.label3.Location = new System.Drawing.Point(383, 13);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(142, 18);
             this.label3.TabIndex = 45;
             this.label3.Text = "Arbol Idx Primario";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
+            // dataGridView5
+            // 
+            this.dataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView5.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tipooo,
+            this.dirnodo,
+            this.ap1,
+            this.dat1,
+            this.ap2,
+            this.dat2,
+            this.ap3,
+            this.dat3,
+            this.ap4,
+            this.dat4,
+            this.ap5});
+            this.dataGridView5.Location = new System.Drawing.Point(8, 34);
+            this.dataGridView5.Name = "dataGridView5";
+            this.dataGridView5.Size = new System.Drawing.Size(836, 290);
+            this.dataGridView5.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage2.Controls.Add(this.dataGridView7);
+            this.tabPage2.Controls.Add(this.dataGridView6);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(860, 336);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Arbol B+ Secundario";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.label5.Location = new System.Drawing.Point(569, 13);
+            this.label5.Location = new System.Drawing.Point(376, 9);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(163, 18);
-            this.label5.TabIndex = 47;
+            this.label5.TabIndex = 48;
             this.label5.Text = "Arbol Idx Secundario";
             // 
-            // label6
+            // tipooo
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.label6.Location = new System.Drawing.Point(518, 42);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(131, 18);
-            this.label6.TabIndex = 50;
-            this.label6.Text = "Grado del Arbol:";
+            this.tipooo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.tipooo.HeaderText = "Tipo";
+            this.tipooo.Name = "tipooo";
+            this.tipooo.Width = 53;
             // 
-            // textBox1
+            // dirnodo
             // 
-            this.textBox1.Location = new System.Drawing.Point(655, 43);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(116, 20);
-            this.textBox1.TabIndex = 51;
+            this.dirnodo.HeaderText = "Direccion Nodo";
+            this.dirnodo.Name = "dirnodo";
+            this.dirnodo.Width = 80;
+            // 
+            // ap1
+            // 
+            this.ap1.HeaderText = "Apuntador 1";
+            this.ap1.Name = "ap1";
+            this.ap1.Width = 80;
+            // 
+            // dat1
+            // 
+            this.dat1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dat1.HeaderText = "Dato1";
+            this.dat1.Name = "dat1";
+            this.dat1.Width = 61;
+            // 
+            // ap2
+            // 
+            this.ap2.HeaderText = "Apuntador 2";
+            this.ap2.Name = "ap2";
+            this.ap2.Width = 80;
+            // 
+            // dat2
+            // 
+            this.dat2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dat2.HeaderText = "Dato2";
+            this.dat2.Name = "dat2";
+            this.dat2.Width = 61;
+            // 
+            // ap3
+            // 
+            this.ap3.HeaderText = "Apuntador 3";
+            this.ap3.Name = "ap3";
+            this.ap3.Width = 80;
+            // 
+            // dat3
+            // 
+            this.dat3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dat3.HeaderText = "Dato3";
+            this.dat3.Name = "dat3";
+            this.dat3.Width = 61;
+            // 
+            // ap4
+            // 
+            this.ap4.HeaderText = "Apuntador 4";
+            this.ap4.Name = "ap4";
+            this.ap4.Width = 80;
+            // 
+            // dat4
+            // 
+            this.dat4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dat4.HeaderText = "Dato4";
+            this.dat4.Name = "dat4";
+            this.dat4.Width = 61;
+            // 
+            // ap5
+            // 
+            this.ap5.HeaderText = "Apuntador 5";
+            this.ap5.Name = "ap5";
+            this.ap5.Width = 80;
+            // 
+            // dataGridView6
+            // 
+            this.dataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView6.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn2,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn4,
+            this.dataGridViewTextBoxColumn5,
+            this.dataGridViewTextBoxColumn6,
+            this.dataGridViewTextBoxColumn7,
+            this.dataGridViewTextBoxColumn8,
+            this.dataGridViewTextBoxColumn9,
+            this.dataGridViewTextBoxColumn10,
+            this.dataGridViewTextBoxColumn11});
+            this.dataGridView6.Location = new System.Drawing.Point(24, 30);
+            this.dataGridView6.Name = "dataGridView6";
+            this.dataGridView6.Size = new System.Drawing.Size(559, 290);
+            this.dataGridView6.TabIndex = 49;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.dataGridViewTextBoxColumn1.HeaderText = "Tipo";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.Width = 53;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.HeaderText = "Direccion Nodo";
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.HeaderText = "Apuntador 1";
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            this.dataGridViewTextBoxColumn3.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn4
+            // 
+            this.dataGridViewTextBoxColumn4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn4.HeaderText = "Dato1";
+            this.dataGridViewTextBoxColumn4.Name = "dataGridViewTextBoxColumn4";
+            this.dataGridViewTextBoxColumn4.Width = 61;
+            // 
+            // dataGridViewTextBoxColumn5
+            // 
+            this.dataGridViewTextBoxColumn5.HeaderText = "Apuntador 2";
+            this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
+            this.dataGridViewTextBoxColumn5.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn6
+            // 
+            this.dataGridViewTextBoxColumn6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn6.HeaderText = "Dato2";
+            this.dataGridViewTextBoxColumn6.Name = "dataGridViewTextBoxColumn6";
+            this.dataGridViewTextBoxColumn6.Width = 61;
+            // 
+            // dataGridViewTextBoxColumn7
+            // 
+            this.dataGridViewTextBoxColumn7.HeaderText = "Apuntador 3";
+            this.dataGridViewTextBoxColumn7.Name = "dataGridViewTextBoxColumn7";
+            this.dataGridViewTextBoxColumn7.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn8
+            // 
+            this.dataGridViewTextBoxColumn8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn8.HeaderText = "Dato3";
+            this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
+            this.dataGridViewTextBoxColumn8.Width = 61;
+            // 
+            // dataGridViewTextBoxColumn9
+            // 
+            this.dataGridViewTextBoxColumn9.HeaderText = "Apuntador 4";
+            this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
+            this.dataGridViewTextBoxColumn9.Width = 80;
+            // 
+            // dataGridViewTextBoxColumn10
+            // 
+            this.dataGridViewTextBoxColumn10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.dataGridViewTextBoxColumn10.HeaderText = "Dato4";
+            this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
+            this.dataGridViewTextBoxColumn10.Width = 61;
+            // 
+            // dataGridViewTextBoxColumn11
+            // 
+            this.dataGridViewTextBoxColumn11.HeaderText = "Apuntador 5";
+            this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
+            this.dataGridViewTextBoxColumn11.Width = 80;
+            // 
+            // dataGridView7
+            // 
+            this.dataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView7.Location = new System.Drawing.Point(609, 30);
+            this.dataGridView7.Name = "dataGridView7";
+            this.dataGridView7.Size = new System.Drawing.Size(243, 290);
+            this.dataGridView7.TabIndex = 50;
             // 
             // Datos
             // 
@@ -453,7 +643,10 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -492,11 +685,33 @@
         private System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dataGridView6;
         private System.Windows.Forms.DataGridView dataGridView5;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tipooo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dirnodo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dat1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dat2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dat3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dat4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ap5;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView dataGridView7;
+        private System.Windows.Forms.DataGridView dataGridView6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
+        private System.Windows.Forms.Label label5;
     }
 }

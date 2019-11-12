@@ -15,24 +15,73 @@ namespace ProyectoArchivos
         private List<String> claves;
         private List<byte[]> nodoBytes;
 
+        public long DirNodo1
+        {
+            get
+            {
+                return DirNodo;
+            }
+
+            set
+            {
+                DirNodo = value;
+            }
+        }
+        public List<string> Claves
+        {
+            get
+            {
+                return claves;
+            }
+
+            set
+            {
+                claves = value;
+            }
+        }
+        public List<long> Apuntadores1
+        {
+            get
+            {
+                return Apuntadores;
+            }
+
+            set
+            {
+                Apuntadores = value;
+            }
+        }
+        public char Tipo
+        {
+            get
+            {
+                return tipo;
+            }
+
+            set
+            {
+                tipo = value;
+            }
+        }
+
         public NodoArbol(char t,Int64 dir, int g,int tam)
         {
-            tipo = t;
+            Tipo = t;
             longitudCve = tam;
-            DirNodo = dir;
+            DirNodo1 = dir;
             nodoBytes = new List<byte[]>();
-            Apuntadores = new List<Int64>();
-            claves = new List<String>();
+            Apuntadores1 = new List<Int64>();
+            Claves = new List<String>();
             inicializaListas(g);
             inicializaBytes(g);
         }
         public void inicializaListas(int grado)
         {
-            Apuntadores.Add(-1);
+            Apuntadores1.Add(-1);
             for(int i =0; i < grado - 1; i++)
             {
-                Apuntadores.Add(-1);
-                claves.Add("");
+                Apuntadores1.Add(-1);
+                Claves.Add("");
             }
         }
         public void inicializaBytes(int grado)
@@ -49,28 +98,82 @@ namespace ProyectoArchivos
         public void actualizaBytes()
         {
             int cnt = 2;
-            Encoding.ASCII.GetBytes(tipo.ToString(),0, 1, nodoBytes[0], 0);
-            Encoding.ASCII.GetBytes(Apuntadores[0].ToString(), 0, Apuntadores[0].ToString().Length, nodoBytes[1], 0);
-            for(int i =0; i < claves.Count; i++)
+            Encoding.ASCII.GetBytes(Tipo.ToString(),0, 1, nodoBytes[0], 0);
+            Encoding.ASCII.GetBytes(Apuntadores1[0].ToString(), 0, Apuntadores1[0].ToString().Length, nodoBytes[1], 0);
+            for(int i =0; i < Claves.Count; i++)
             {
-                Encoding.ASCII.GetBytes(claves[i].ToString(), 0, claves[i].ToString().Length, nodoBytes[cnt], 0);
+                Encoding.ASCII.GetBytes(Claves[i].ToString(), 0, Claves[i].ToString().Length, nodoBytes[cnt], 0);
                 cnt++;
-                Encoding.ASCII.GetBytes(Apuntadores[i+1].ToString(), 0, Apuntadores[0].ToString().Length, nodoBytes[cnt], 0);
+                Encoding.ASCII.GetBytes(Apuntadores1[i+1].ToString(), 0, Apuntadores1[0].ToString().Length, nodoBytes[cnt], 0);
                 cnt++;
             }
         }
         public void actualizaDatos()
         {
             int cnt = 2;
-            tipo = Convert.ToChar(Encoding.ASCII.GetString(nodoBytes[0]));
-            DirNodo = Convert.ToInt64(Encoding.ASCII.GetString(nodoBytes[1]));
-            for (int i = 0; i < claves.Count; i++)
+            Tipo = Convert.ToChar(Encoding.ASCII.GetString(nodoBytes[0]));
+            DirNodo1 = Convert.ToInt64(Encoding.ASCII.GetString(nodoBytes[1]));
+            for (int i = 0; i < Claves.Count; i++)
             {
-                claves[cnt] = Encoding.ASCII.GetString(nodoBytes[cnt]);
+                Claves[cnt] = Encoding.ASCII.GetString(nodoBytes[cnt]);
                 cnt++;
-                Apuntadores[cnt] = Convert.ToInt64(Encoding.ASCII.GetString(nodoBytes[cnt]));
+                Apuntadores1[cnt] = Convert.ToInt64(Encoding.ASCII.GetString(nodoBytes[cnt]));
                 cnt++;
             }
         }
+        public int buscaHoja(string dat)
+        {
+            int search = -1;
+            for(int i =0; i < Claves.Count; i++)
+            {
+                if (dat.Replace("\0", "").Equals(Claves[i].Replace("\0", "")))
+                {
+                    search = Convert.ToInt32(DirNodo1);
+                    break;
+                }else
+                {
+                    if (Claves[i].Replace("\0", "").Equals(""))
+                    {
+                        search = -1;
+                        break;
+                    }
+                }
+            }
+            return search;
+        }
+        public void insertaHoja(string dat,string direccion)
+        {
+            for(int i =0; i < Claves.Count; i++)
+            {
+                if (Claves[i].Replace("\0", "").Equals(""))
+                {
+                    Claves[i] = dat;
+                    Apuntadores1[i] = Convert.ToInt64(direccion);
+                    break;
+                }
+            }
+            ordenaNodo();
+        }
+        public void ordenaNodo()
+        {
+            List<Int64> auxp = new List<long>();
+            List<String> auxcve = new List<string>(Claves);
+            auxcve.Sort();
+            for (int j = 0; j < auxcve.Count; j++)
+            {
+                for (int i = 0; i < Claves.Count; i++)
+                {
+                    if (auxcve[j].Replace("\0", "") == Claves[i].Replace("\0", ""))
+                    {
+                        auxp.Add(Apuntadores1[i]);
+                        break;
+                    }
+                }
+            }
+            auxp.Add(Apuntadores1[4]);
+            Claves.Sort();
+            Apuntadores1 = new List<long>(auxp);
+        }
+    
     }
 }
