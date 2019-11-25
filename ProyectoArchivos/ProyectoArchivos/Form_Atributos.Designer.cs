@@ -384,7 +384,9 @@
             "0(Sin_tipo)",
             "1(Clave_de_busqueda)",
             "2(Indice_primario)",
-            "3(Indice_secundario)"});
+            "3(Indice_secundario)",
+            "4(Arbol_primario)",
+            "5(Arbol_secundario)"});
             this.Cb_Index.Location = new System.Drawing.Point(277, 151);
             this.Cb_Index.Name = "Cb_Index";
             this.Cb_Index.Size = new System.Drawing.Size(100, 21);

@@ -13,7 +13,6 @@ namespace ProyectoArchivos
         private Int64 DirNodo;
         private List<Int64> Apuntadores;
         private List<String> claves;
-        private List<byte[]> nodoBytes;
 
         public long DirNodo1
         {
@@ -69,111 +68,296 @@ namespace ProyectoArchivos
             Tipo = t;
             longitudCve = tam;
             DirNodo1 = dir;
-            nodoBytes = new List<byte[]>();
             Apuntadores1 = new List<Int64>();
-            Claves = new List<String>();
-            inicializaListas(g);
-            inicializaBytes(g);
-        }
-        public void inicializaListas(int grado)
-        {
             Apuntadores1.Add(-1);
-            for(int i =0; i < grado - 1; i++)
-            {
-                Apuntadores1.Add(-1);
-                Claves.Add("");
-            }
+            Claves = new List<String>();
         }
-        public void inicializaBytes(int grado)
+        public long buscaDato(string dat)
         {
-            nodoBytes.Add(new byte[1]);
-            nodoBytes.Add(new byte[8]);
-            nodoBytes.Add(new byte[8]);
-            for (int i = 0; i < grado - 1; i++)
+            long aux = -1;
+            if(tipo == 'I' || tipo == 'R')
             {
-                nodoBytes.Add(new byte[longitudCve]);
-                nodoBytes.Add(new byte[8]);
-            }
-        }
-        public void actualizaBytes()
-        {
-            int cnt = 2;
-            Encoding.ASCII.GetBytes(Tipo.ToString(),0, 1, nodoBytes[0], 0);
-            Encoding.ASCII.GetBytes(Apuntadores1[0].ToString(), 0, Apuntadores1[0].ToString().Length, nodoBytes[1], 0);
-            for(int i =0; i < Claves.Count; i++)
-            {
-                Encoding.ASCII.GetBytes(Claves[i].ToString(), 0, Claves[i].ToString().Length, nodoBytes[cnt], 0);
-                cnt++;
-                Encoding.ASCII.GetBytes(Apuntadores1[i+1].ToString(), 0, Apuntadores1[0].ToString().Length, nodoBytes[cnt], 0);
-                cnt++;
-            }
-        }
-        public void actualizaDatos()
-        {
-            int cnt = 2;
-            Tipo = Convert.ToChar(Encoding.ASCII.GetString(nodoBytes[0]));
-            DirNodo1 = Convert.ToInt64(Encoding.ASCII.GetString(nodoBytes[1]));
-            for (int i = 0; i < Claves.Count; i++)
-            {
-                Claves[cnt] = Encoding.ASCII.GetString(nodoBytes[cnt]);
-                cnt++;
-                Apuntadores1[cnt] = Convert.ToInt64(Encoding.ASCII.GetString(nodoBytes[cnt]));
-                cnt++;
-            }
-        }
-        public int buscaHoja(string dat)
-        {
-            int search = -1;
-            for(int i =0; i < Claves.Count; i++)
-            {
-                if (dat.Replace("\0", "").Equals(Claves[i].Replace("\0", "")))
+                for(int i = 0; i < claves.Count; i++)
                 {
-                    search = Convert.ToInt32(DirNodo1);
-                    break;
-                }else
-                {
-                    if (Claves[i].Replace("\0", "").Equals(""))
+                    if (longitudCve > 4)
                     {
-                        search = -1;
-                        break;
+                        if (claves[i].Replace("\0", "").CompareTo(dat) < 0)
+                        {
+                            aux = Apuntadores[i];
+                            break;
+                        } else
+                        {
+                            if (claves[i].Replace("\0", "").CompareTo(dat) == 0)
+                                {
+                                    aux = Apuntadores[i+1];
+                                    break;
+                                }
+                        }
+                    }else
+                    {
+                        if(Convert.ToInt32(claves[i].Replace("\0","")) < Convert.ToInt32(dat))
+                        {
+                            aux = Apuntadores[i];
+                            break;
+                        }
+                        else
+                        {
+                            if (Convert.ToInt32(claves[i].Replace("\0", "")) == Convert.ToInt32(dat))
+                            {
+                                aux = Apuntadores[i + 1];
+                                break;
+                            }
+                        }
+                    }
+                }
+            }else
+            {
+                for (int i = 0; i < claves.Count; i++)
+                {
+                    if (longitudCve > 4)
+                    {
+                        if (claves[i].Replace("\0", "").CompareTo(dat) == 0)
+                            {
+                                aux = DirNodo;
+                                break;
+                            }
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(claves[i].Replace("\0", "")) == Convert.ToInt32(dat))
+                            {
+                                aux = DirNodo;
+                                break;
+                            }
                     }
                 }
             }
-            return search;
+            return aux;
         }
-        public void insertaHoja(string dat,string direccion)
+        public long buscaDato2(string dat)
         {
-            for(int i =0; i < Claves.Count; i++)
+            long aux = -1;
+            if (tipo == 'I' || tipo == 'R')
             {
-                if (Claves[i].Replace("\0", "").Equals(""))
+                for (int i = 0; i < claves.Count; i++)
                 {
-                    Claves[i] = dat;
-                    Apuntadores1[i] = Convert.ToInt64(direccion);
-                    break;
+                    if (longitudCve > 4)
+                    {
+                        if (claves[i].Replace("\0", "").CompareTo(dat) < 0)
+                        {
+                            aux = Apuntadores[i+1];
+                            break;
+                        }
+                        else
+                        {
+                            aux = Apuntadores[i];
+                        }
+                    }
+                    else
+                    {
+                        
+                        if (Convert.ToInt32(claves[i].Replace("\0", "")) < Convert.ToInt32(dat))
+                        {
+                            aux = Apuntadores[i+1];
+                            break;
+                        }else
+                        {
+                            aux = Apuntadores[i];
+                        }
+                    }
                 }
             }
-            ordenaNodo();
+            else
+            {
+                for (int i = 0; i < claves.Count; i++)
+                {
+                    if (longitudCve > 4)
+                    {
+                            aux = DirNodo;
+                            break;
+                    }
+                    else
+                    {
+                            aux = DirNodo;
+                            break;
+                    }
+                }
+            }
+            return aux;
         }
-        public void ordenaNodo()
+        public void insertaDato(string dat, Int64 apun)
         {
-            List<Int64> auxp = new List<long>();
-            List<String> auxcve = new List<string>(Claves);
-            auxcve.Sort();
-            for (int j = 0; j < auxcve.Count; j++)
+            if (tipo == 'H')
+            {
+                if(claves.Count == 0)
+                {
+                    claves.Add(dat);
+                    Apuntadores.Insert(0, apun);
+                    return;
+                }
+                
+                for (int i = 0; i < Claves.Count; i++)
+                {
+              
+                    if (longitudCve > 4)
+                    {
+                        if (claves[i].Replace("\0", "").CompareTo(dat) > 0)
+                        {
+                            Claves.Insert(i,dat);
+                            Apuntadores.Insert(i, apun);
+                            break;
+                        }else
+                        {
+                            Claves.Add(dat);
+                            Apuntadores.Insert(Apuntadores.Count-2, apun);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(claves[i].Replace("\0", "")) > Convert.ToInt32(dat))
+                        {
+                            Claves.Insert(i, dat);
+                            Apuntadores.Insert(i, apun);
+                            break;
+                        }else
+                        {
+                            if(i == Claves.Count - 1)
+                            {
+                                Claves.Add(dat);
+                                Apuntadores.Insert(Apuntadores.Count - 1, apun);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }else
             {
                 for (int i = 0; i < Claves.Count; i++)
                 {
-                    if (auxcve[j].Replace("\0", "") == Claves[i].Replace("\0", ""))
+                    if (longitudCve > 4)
                     {
-                        auxp.Add(Apuntadores1[i]);
-                        break;
+                        if (claves[i].Replace("\0", "").CompareTo(dat) > 0)
+                        {
+                            Claves.Insert(i, dat);
+                            Apuntadores.Insert(i+1, apun);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if (Convert.ToInt32(claves[i].Replace("\0", "")) > Convert.ToInt32(dat))
+                        {
+                            Claves.Insert(i, dat);
+                            Apuntadores.Insert(i+1, apun);
+                            break;
+                        }
+                        if(i == Claves.Count - 1)
+                        {
+                                Claves.Add(dat);
+                                Apuntadores.Add(apun);
+                            break;
+                        }
+                        
                     }
                 }
             }
-            auxp.Add(Apuntadores1[4]);
-            Claves.Sort();
-            Apuntadores1 = new List<long>(auxp);
         }
-    
+        
+        public bool hayEspacio()
+        {
+            if (claves.Count < 4)
+                return true;
+            return false;
+        }
+        public bool limpiaMitad(string dat)
+        {
+            bool der = false; 
+            if (tipo == 'I')
+            {
+                if (Convert.ToInt32(claves[1]) < Convert.ToInt32(dat))
+                {
+                    Claves.RemoveAt(2);
+                    Claves.RemoveAt(2);
+                    Apuntadores.RemoveAt(3);
+                    Apuntadores.RemoveAt(3);
+                }
+                else
+                {
+                    Claves.RemoveAt(1);
+                    Claves.RemoveAt(1);
+                    Claves.RemoveAt(1);
+                    Apuntadores.RemoveAt(3);
+                    Apuntadores.RemoveAt(3);
+                    der = true;
+                }
+            }
+            else
+            {
+                if (Convert.ToInt32(claves[1]) < Convert.ToInt32(dat))
+                {
+                    Claves.RemoveAt(2);
+                    Claves.RemoveAt(2);
+                    Apuntadores.RemoveAt(2);
+                    Apuntadores.RemoveAt(2);
+                }else
+                {
+                    Claves.RemoveAt(1);
+                    Claves.RemoveAt(1);
+                    Claves.RemoveAt(1);
+                    Apuntadores.RemoveAt(1);
+                    Apuntadores.RemoveAt(1);
+                    Apuntadores.RemoveAt(1);
+                    der = true;
+                }
+            }
+            return der;
+        }
+
+        public void recorreDatos(bool izq)
+        {
+            if (tipo == 'I' || tipo == 'R')
+            {
+                if (izq)
+                {
+                    Claves.RemoveAt(0);
+                    Claves.RemoveAt(0);
+                    Apuntadores.RemoveAt(1);
+                    Apuntadores.RemoveAt(1);
+                }
+                else
+                {
+                    Claves.RemoveAt(1);
+                    Claves.RemoveAt(1);
+                    Claves.RemoveAt(1);
+                    Apuntadores.RemoveAt(2);
+                    Apuntadores.RemoveAt(2);
+                    Apuntadores.RemoveAt(2);
+                }
+            }
+            else
+            {
+                if (izq)
+                {
+                    Claves.RemoveAt(0);
+                    Claves.RemoveAt(0);
+                    Apuntadores.RemoveAt(0);
+                    Apuntadores.RemoveAt(0);
+                }
+                else
+                {
+                    
+                    Claves.RemoveAt(0);
+                    Apuntadores.RemoveAt(0);
+                }
+            }
+        }
+
+        public void borraEntrada(string dat,long pointer)
+        {
+            Apuntadores.Remove(pointer);
+            Claves.Remove(dat);
+        }
+        
     }
 }

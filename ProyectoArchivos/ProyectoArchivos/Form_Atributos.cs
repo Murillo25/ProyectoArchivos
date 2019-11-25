@@ -125,6 +125,12 @@ namespace ProyectoArchivos
                                             entidadT[nTab].Secundaria = true;
                                             atIndice = 3;
                                             break;
+                                        case "4(Arbol_primario)":
+                                            atIndice = 4;
+                                            break;
+                                        case "5(Arbol_secundario)":
+                                            atIndice = 5;
+                                            break;
 
                                     }
 
@@ -374,6 +380,12 @@ namespace ProyectoArchivos
                     case 3:
                         Cb_Index.Text = "3(Indice_secundario)";
                         break;
+                    case 4:
+                        Cb_Index.Text = "4(Arbol_primario)";
+                        break;
+                    case 5:
+                        Cb_Index.Text = "5(Arbol_secundario)";
+                        break;
                 }
                 button1.Visible = true;
             }
@@ -403,6 +415,12 @@ namespace ProyectoArchivos
                         break;
                     case "3(Indice_secundario)":
                         atIndice = 3;
+                        break;
+                    case "4(Arbol_primario)":
+                        atIndice = 4;
+                        break;
+                    case "5(Arbol_secundario)":
+                        atIndice = 5;
                         break;
 
                 }

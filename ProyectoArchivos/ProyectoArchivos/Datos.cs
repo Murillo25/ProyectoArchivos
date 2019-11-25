@@ -22,6 +22,7 @@ namespace ProyectoArchivos
         private List<Atributo> atributos;
         private ArchIndiceSec archidxS;
         private ArchivoIndicePri archIdxP;
+        private ArboolB_ ArbolPri;
         private long dirPrimDat;
         private int rowIdx;
         bool clave;
@@ -175,6 +176,21 @@ namespace ProyectoArchivos
             }
 
         }
+        int campoArbPri;
+        bool arbolpri;
+        public void buscarArbolP()
+        {
+            for (int i = 0; i < atributos.Count; i++)
+            {
+                if (atributos[i].TipoIdxAt == 4)
+                {
+                    campoArbPri = i + 1;
+                    arbolpri = true;
+                    break;
+                }
+            }
+
+        }
 
         public void actualizaDataidxp()
         {
@@ -249,6 +265,20 @@ namespace ProyectoArchivos
             buscacve();
             buscaidxP();
             buscaidxS();
+            buscarArbolP();
+
+            if (arbolpri)
+            {
+                ruta = carpeta + @"\" + atributos[campoArbPri - 1].IdHex + ".idx";
+                ArbolPri = new ArboolB_(5, ruta, atributos[campoArbPri - 1].LongAt);
+                
+                if (atributos[campoArbPri - 1].DirIndice !=-1)
+                {
+                    ArbolPri.raiz = Convert.ToInt32(atributos[campoArbPri - 1].DirIndice);
+                    ArbolPri.leeDatos(Convert.ToInt32(atributos[campoArbPri - 1].DirIndice), atributos[campoArbPri - 1].LongAt);
+                    escribeArbolPrim();
+                }
+            }
             
             if (idxP)
             {
@@ -318,7 +348,14 @@ namespace ProyectoArchivos
                         archivo.Close();
                     }
                 }
-
+                if (arbolpri)
+                {
+                    File.Delete(ArbolPri.nombreArch);
+                    using (FileStream archivo = new FileStream(ArbolPri.nombreArch, FileMode.Create))
+                    {
+                        archivo.Close();
+                    }
+                }
                 entidades[sele].DirDatos = archivoDatos.dir;
             }
             if (idxP)
@@ -346,13 +383,47 @@ namespace ProyectoArchivos
                 archidxS.escribeBP();
                 archidxS.escribeSC();
                 actualizaDataidxs();
-                atributos[campoidxS - 1].DirIndice = 0;
+               
                 dic.escribeAtributo(atributos[campoidxS - 1].DirAt, atributos[campoidxS - 1]);
+            }
+            if (arbolpri)
+            {
+                ArbolPri.inserta(datosAux[campoArbPri], Convert.ToInt64(datosAux[0]));
+                escribeArbolPrim();
+                atributos[campoArbPri - 1].DirIndice = ArbolPri.raiz;
+                dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
             }
             dic.escribeEntidad(entidades[sele].DirEnt, entidades[sele]);
             llenaDgvEst();
         }
-        
+
+        public void escribeArbolPrim()
+        {
+            int cnt = 2;
+            dataGridView5.Rows.Clear();
+            for(int i = 0; i< ArbolPri.Nodos.Count; i++)
+            {
+                dataGridView5.Rows.Add();
+                dataGridView5.Rows[dataGridView5.Rows.Count - 2].Cells[0].Value = ArbolPri.Nodos[i].Tipo.ToString();
+                dataGridView5.Rows[dataGridView5.Rows.Count - 2].Cells[1].Value = ArbolPri.Nodos[i].DirNodo1.ToString();
+                for (int j = 0; j < ArbolPri.Nodos[i].Claves.Count; j++)
+                {
+                    dataGridView5.Rows[dataGridView5.Rows.Count - 2].Cells[cnt].Value = ArbolPri.Nodos[i].Apuntadores1[j].ToString();
+                    cnt++;
+                    dataGridView5.Rows[dataGridView5.Rows.Count - 2].Cells[cnt].Value = ArbolPri.Nodos[i].Claves[j].ToString();
+                    cnt++;
+                }
+                if(ArbolPri.Nodos[i].Tipo == 'H')
+                {
+                    dataGridView5.Rows[dataGridView5.Rows.Count - 2].Cells[dataGridView5.Rows[dataGridView5.Rows.Count - 2].Cells.Count-1].Value = ArbolPri.Nodos[i].Apuntadores1[ArbolPri.Nodos[i].Apuntadores1.Count-1].ToString();
+                }else
+                {
+                    dataGridView5.Rows[dataGridView5.Rows.Count - 2].Cells[cnt].Value = ArbolPri.Nodos[i].Apuntadores1[ArbolPri.Nodos[i].Apuntadores1.Count - 1].ToString();
+                }
+                cnt = 2;
+            }
+        }
+
         public void buscaAux()
         {
             for (int i = 0; i < todosDatos.Count; i++)
