@@ -512,6 +512,11 @@ namespace ProyectoArchivos
                         archidxS.eliminarDato(todosDatos[i][campoidxS],todosDatos[i][0]);
                         actualizaDataidxs();
                     }
+                    if (arbolpri)
+                    {
+                        ArbolPri.elimina(todosDatos[i][campoArbPri].Replace("\0", ""), Convert.ToInt64(todosDatos[i][0].Replace("\0", "")));
+                        escribeArbolPrim();
+                    }
                     borra = todosDatos[i][0].Replace("\0", "");
                     todosDatos.RemoveAt(i);
                     break;
