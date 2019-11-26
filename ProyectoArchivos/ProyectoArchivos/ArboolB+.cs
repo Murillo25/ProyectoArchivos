@@ -471,7 +471,8 @@ namespace ProyectoArchivos
             string kPrima="";
             long padre = buscaPapa(dir);
             Nodos[lugarLista(dir)].borraEntrada(k, p);
-            if(Nodos[lugarLista(dir)].DirNodo1 == raiz && Nodos[lugarLista(dir)].Apuntadores1.Count == 1)
+            SobreEscribeNodo(Nodos[lugarLista(dir)]);
+            if (Nodos[lugarLista(dir)].DirNodo1 == raiz && Nodos[lugarLista(dir)].Apuntadores1.Count == 1)
             {
                 raiz = Convert.ToInt32(Nodos[lugarLista(dir)].Apuntadores1[0]);
                 Nodos.Remove(Nodos[lugarLista(dir)]);
@@ -508,6 +509,7 @@ namespace ProyectoArchivos
                 }
                  if(!buscapredecesor(nodo,vecino))
                     Nodos[lugarLista(vecino)].Apuntadores1[Nodos[lugarLista(vecino)].Apuntadores1.Count - 1] = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
+                
             }
             else
             {
@@ -519,6 +521,7 @@ namespace ProyectoArchivos
             }
 
             borra_entrada(buscaPapa(nodo),k,nodo);
+            SobreEscribeNodo(Nodos[lugarLista(vecino)]);
             Nodos.Remove(Nodos[lugarLista(nodo)]);
         }
 
@@ -537,7 +540,10 @@ namespace ProyectoArchivos
                     string ja = buscaClavePapa(nodo, vecino);
                     int indx = Nodos[lugarLista(padre)].Claves.IndexOf(ja);
                     Nodos[lugarLista(padre)].Claves[indx] = k;
-                }else
+                    SobreEscribeNodo(Nodos[lugarLista(vecino)]);
+                    SobreEscribeNodo(Nodos[lugarLista(padre)]);
+                }
+                else
                 {
                     string mk = (Nodos[lugarLista(vecino)].Claves[Nodos[lugarLista(vecino)].Claves.Count - 1]);
                     long mp = (Nodos[lugarLista(vecino)].Apuntadores1[Nodos[lugarLista(vecino)].Apuntadores1.Count - 2]);
@@ -548,6 +554,8 @@ namespace ProyectoArchivos
                     string ja = buscaClavePapa(nodo, vecino);
                     int indx = Nodos[lugarLista(padre)].Claves.IndexOf(ja);
                     Nodos[lugarLista(padre)].Claves[indx] = Nodos[lugarLista(nodo)].Claves[0];
+                    SobreEscribeNodo(Nodos[lugarLista(vecino)]);
+                    SobreEscribeNodo(Nodos[lugarLista(padre)]);
                 }
             }
             else
@@ -563,6 +571,8 @@ namespace ProyectoArchivos
                     string ja = buscaClavePapa(nodo, vecino);
                     int indx = Nodos[lugarLista(padre)].Claves.IndexOf(ja);
                     Nodos[lugarLista(padre)].Claves[indx] = k;
+                    SobreEscribeNodo(Nodos[lugarLista(vecino)]);
+                    SobreEscribeNodo(Nodos[lugarLista(padre)]);
                 }
                 else
                 {
@@ -575,6 +585,8 @@ namespace ProyectoArchivos
                     string ja = buscaClavePapa(nodo, vecino);
                     int indx = Nodos[lugarLista(padre)].Claves.IndexOf(ja);
                     Nodos[lugarLista(padre)].Claves[indx] = Nodos[lugarLista(nodo)].Claves[0];
+                    SobreEscribeNodo(Nodos[lugarLista(vecino)]);
+                    SobreEscribeNodo(Nodos[lugarLista(padre)]);
                 }
             }
         }
