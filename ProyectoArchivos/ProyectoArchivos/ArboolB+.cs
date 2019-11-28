@@ -383,17 +383,33 @@ namespace ProyectoArchivos
             regresa.Claves.Remove("����");
             regresa.Claves.Remove("����");
             regresa.Claves.Remove("����");
+
+            Nodos.Add(regresa);
             if (regresa.Tipo == 'R')
             {
-                Nodos.Add(regresa);
-                for (int i = 0; i < regresa.Apuntadores1.Count; i++)
-                {
-                    Nodos.Add(leeDatosNoraiz(regresa.Apuntadores1[i],ta));
-                }
+                    for (int i = 0; i < regresa.Apuntadores1.Count; i++)
+                    {
+                        Nodos.Add(leeDatosNoraiz(regresa.Apuntadores1[i], ta));
+                    }
             }
+            
             FileInfo n = new FileInfo(nombreArch);
             dirActual = n.Length;
             return regresa;
+        }
+
+        public bool RaizHoja(List<List<string>> nueva, NodoArbol n,int c)
+        {
+            bool sies = true;
+            for(int i = 0; i < n.Claves.Count; i++)
+            {
+                if(n.Claves[i] != nueva[i][c].Replace("\0", "")){
+                    sies = false;
+                    break;
+                }
+            }
+
+            return sies;
         }
 
         public NodoArbol leeDatosNoraiz(long dir, int ta)
@@ -461,7 +477,12 @@ namespace ProyectoArchivos
 
         public void elimina(string k, long p)
         {
-            long nodo = buscaNodoHoja(k,raiz,true);
+            long nodo = buscaNodoHoja(k,raiz,true);            
+            if (Nodos[lugarLista(raiz)].Tipo == 'H')
+            {
+                Nodos[lugarLista(raiz)].borraEntrada(k, p);
+                return;
+            }
             borra_entrada(nodo, k, p);
         }
 
@@ -471,18 +492,19 @@ namespace ProyectoArchivos
             string kPrima="";
             long padre = buscaPapa(dir);
             Nodos[lugarLista(dir)].borraEntrada(k, p);
-            SobreEscribeNodo(Nodos[lugarLista(dir)]);
+            SobreEscribeNodo(Nodos[lugarLista(dir)]);                     
             if (Nodos[lugarLista(dir)].DirNodo1 == raiz && Nodos[lugarLista(dir)].Apuntadores1.Count == 1)
             {
                 raiz = Convert.ToInt32(Nodos[lugarLista(dir)].Apuntadores1[0]);
-                Nodos.Remove(Nodos[lugarLista(dir)]);
+                Nodos[lugarLista(raiz)].Tipo = 'R';                
+                Nodos.Remove(Nodos[lugarLista(dir)]);                
                 return;
             }
             else
             {
-                if(Nodos[lugarLista(dir)].Apuntadores1.Count <= 2)
+                if(Nodos[lugarLista(dir)].Apuntadores1.Count <= 2 && Nodos[lugarLista(dir)].Tipo != 'R')
                 {
-                    vecino = buscaVecino(dir, k);
+                    vecino = buscaVecino(dir, k,true);
                     if (vecino != -1)
                     {
                         kPrima = buscaClavePapa(dir, vecino);
@@ -509,20 +531,30 @@ namespace ProyectoArchivos
                 }
                  if(!buscapredecesor(nodo,vecino))
                     Nodos[lugarLista(vecino)].Apuntadores1[Nodos[lugarLista(vecino)].Apuntadores1.Count - 1] = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
-                
+
+                SobreEscribeNodo(Nodos[lugarLista(vecino)]);
             }
             else
             {
-                for (int i = 0; i < Nodos[lugarLista(nodo)].Apuntadores1.Count-1; i++)
+                for (int i = 0; i < Nodos[lugarLista(nodo)].Claves.Count; i++)
                 {
-                    Nodos[lugarLista(vecino)].insertaDato(Nodos[lugarLista(nodo)].Claves[i], Nodos[lugarLista(nodo)].Apuntadores1[i]);
+                    Nodos[lugarLista(vecino)].insertaDato(Nodos[lugarLista(nodo)].Claves[i], Nodos[lugarLista(nodo)].Apuntadores1[i+1]);
                 }
-                Nodos[lugarLista(vecino)].insertaDato(k, Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count-1]);
-            }
+                Nodos[lugarLista(vecino)].insertaDato(k, Nodos[lugarLista(nodo)].Apuntadores1[0]); //Nodos[lugarLista(nodo)].Apuntadores1.Count-1
 
-            borra_entrada(buscaPapa(nodo),k,nodo);
-            SobreEscribeNodo(Nodos[lugarLista(vecino)]);
-            Nodos.Remove(Nodos[lugarLista(nodo)]);
+                SobreEscribeNodo(Nodos[lugarLista(vecino)]);
+            }
+                borra_entrada(buscaPapa(nodo), k, nodo);
+        }
+        public int contador()
+        {
+            int cnt = 0;
+            for(int i = 0; i < Nodos.Count; i++)
+            {
+                if (Nodos[i].Tipo == 'R' || Nodos[i].Tipo == 'I')
+                    cnt++;
+            }
+            return cnt;
         }
 
         public void Redistribuye(long nodo, string k, long vecino)
@@ -589,9 +621,18 @@ namespace ProyectoArchivos
                     SobreEscribeNodo(Nodos[lugarLista(padre)]);
                 }
             }
+            //Nodos.Remove(Nodos[lugarLista(nodo)]);
         }
 
-
+        public void escribetodo()
+        {
+           
+            for (int i = 0; i < Nodos.Count; i++)
+            {
+                SobreEscribeNodo(Nodos[i]);
+            }
+            
+        }
 
 
 
@@ -608,10 +649,24 @@ namespace ProyectoArchivos
             int indx2 = Nodos[lugarLista(padre)].Apuntadores1.IndexOf(nodo2);
             if(indx < indx2)
             {
-                k = Nodos[lugarLista(padre)].Claves[indx];
+                if (indx == -1)
+                {
+                    k = Nodos[lugarLista(padre)].Claves[indx2];
+                }
+                else
+                {
+                    k = Nodos[lugarLista(padre)].Claves[indx];
+                }
             }else
             {
-                k = Nodos[lugarLista(padre)].Claves[indx2];
+                if (indx2 == -1)
+                {
+                    k = Nodos[lugarLista(padre)].Claves[indx];
+                }
+                else
+                {
+                    k = Nodos[lugarLista(padre)].Claves[indx2];
+                }
             }
             return k;
         }
@@ -667,16 +722,20 @@ namespace ProyectoArchivos
             long vecino = -1;
             if(Nodos[lugarLista(nodo)].Tipo == 'H')
             {
-                if (Nodos[lugarLista(Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count-1])].Apuntadores1.Count > 2)
+                if (lugarLista(Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1]) != -1)
                 {
-                    vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
-                }else
-                {
-                    long padre = buscaPapa(nodo);
-                    int index = Nodos[lugarLista(padre)].Claves.IndexOf(k);
-                    if(Nodos[lugarLista(padre)].Apuntadores1[index] != Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1])
+                    if (Nodos[lugarLista(Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1])].Apuntadores1.Count > 2)
                     {
-                        vecino = Nodos[lugarLista(padre)].Apuntadores1[index];
+                        vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
+                    }
+                    else
+                    {
+                        long padre = buscaPapa(nodo);
+                        int index = Nodos[lugarLista(padre)].Claves.IndexOf(k);
+                        if (Nodos[lugarLista(padre)].Apuntadores1[index] != Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1])
+                        {
+                            vecino = Nodos[lugarLista(padre)].Apuntadores1[index];
+                        }
                     }
                 }
             }else
@@ -701,5 +760,70 @@ namespace ProyectoArchivos
 
             return vecino;
         }
+        public long buscaVecino(long nodo, string k,bool t)
+        {
+            long vecino = -1;
+            if (Nodos[lugarLista(nodo)].Tipo == 'H')
+            {
+                if (Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1] != -1)
+                {
+                    vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
+                } else
+                {
+                    long padre = buscaPapa(nodo);
+                    int index = Nodos[lugarLista(padre)].Apuntadores1.IndexOf(nodo);
+                    if (Nodos[lugarLista(padre)].Apuntadores1[index - 1] != Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1])
+                    {
+                        vecino = Nodos[lugarLista(padre)].Apuntadores1[index-1];
+                    }else
+                    {
+                        vecino = Nodos[lugarLista(padre)].Apuntadores1[index];
+                    }
+                }
+            }
+            else
+            {
+                long padre = buscaPapa(nodo);
+                if (padre != -1)
+                {
+                    int index = Nodos[lugarLista(padre)].Apuntadores1.IndexOf(nodo);
+                    if (index != -1)
+                    {
+                        if (Nodos[lugarLista(padre)].Apuntadores1[index] != Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1])
+                        {
+                                vecino = Nodos[lugarLista(padre)].Apuntadores1[index - 1];
+                        }
+                        else
+                        {
+                            vecino = Nodos[lugarLista(padre)].Apuntadores1[index];
+                        }
+                    }
+                }
+            }
+
+            if(vecino == -1 && Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1] != -1)
+            {
+                vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
+            }
+            if (!existeDir(vecino) && Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1] != -1)
+            {
+                vecino = 65;
+            }
+
+            return vecino;
+        }
+        public bool existeDir(long dir)
+        {
+            bool a = false;
+
+            for (int i = 0; i < Nodos.Count; i++)
+            {
+                if (dir == Nodos[i].DirNodo1)
+                    return true;
+            }
+            return a;
+        }
     }
+
+    
 }

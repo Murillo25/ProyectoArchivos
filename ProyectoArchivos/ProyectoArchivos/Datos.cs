@@ -267,18 +267,7 @@ namespace ProyectoArchivos
             buscaidxS();
             buscarArbolP();
 
-            if (arbolpri)
-            {
-                ruta = carpeta + @"\" + atributos[campoArbPri - 1].IdHex + ".idx";
-                ArbolPri = new ArboolB_(5, ruta, atributos[campoArbPri - 1].LongAt);
-                
-                if (atributos[campoArbPri - 1].DirIndice !=-1)
-                {
-                    ArbolPri.raiz = Convert.ToInt32(atributos[campoArbPri - 1].DirIndice);
-                    ArbolPri.leeDatos(Convert.ToInt32(atributos[campoArbPri - 1].DirIndice), atributos[campoArbPri - 1].LongAt);
-                    escribeArbolPrim();
-                }
-            }
+            
             
             if (idxP)
             {
@@ -314,6 +303,18 @@ namespace ProyectoArchivos
             }
             todosDatos.Clear();
             todosDatos = archDat.leeDatos(entidades[sele].DirDatos);
+            if (arbolpri)
+            {
+                ruta = carpeta + @"\" + atributos[campoArbPri - 1].IdHex + ".idx";
+                ArbolPri = new ArboolB_(5, ruta, atributos[campoArbPri - 1].LongAt);
+
+                if (atributos[campoArbPri - 1].DirIndice != -1)
+                {
+                    ArbolPri.raiz = Convert.ToInt32(atributos[campoArbPri - 1].DirIndice);
+                    ArbolPri.leeDatos(Convert.ToInt32(atributos[campoArbPri - 1].DirIndice), atributos[campoArbPri - 1].LongAt);
+                    escribeArbolPrim();
+                }
+            }
             last();
             llenaDgvEst();
         }
@@ -392,6 +393,7 @@ namespace ProyectoArchivos
                 escribeArbolPrim();
                 atributos[campoArbPri - 1].DirIndice = ArbolPri.raiz;
                 dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
+                ArbolPri.escribetodo();
             }
             dic.escribeEntidad(entidades[sele].DirEnt, entidades[sele]);
             llenaDgvEst();
@@ -513,12 +515,38 @@ namespace ProyectoArchivos
                         actualizaDataidxs();
                     }
                     if (arbolpri)
-                    {
+                    {                        
                         ArbolPri.elimina(todosDatos[i][campoArbPri].Replace("\0", ""), Convert.ToInt64(todosDatos[i][0].Replace("\0", "")));
+                        ArbolPri.escribetodo();
+                        if (todosDatos.Count == 4)
+                        {
+                            ArbolPri.Nodos[ArbolPri.lugarLista(ArbolPri.raiz)].Tipo = 'H';
+                        }
+                        ArbolPri.escribetodo();
+                        ArbolPri.leeDatos(Convert.ToInt64(ArbolPri.raiz), 4);
+                        atributos[campoArbPri - 1].DirIndice = ArbolPri.raiz;
+                        dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
                         escribeArbolPrim();
                     }
+
                     borra = todosDatos[i][0].Replace("\0", "");
                     todosDatos.RemoveAt(i);
+                    if (todosDatos.Count < 4 && arbolpri)
+                    {
+                       ArbolPri.Nodos[ArbolPri.lugarLista(ArbolPri.raiz)].Tipo = 'H';
+                       for(int j = 0; j< ArbolPri.Nodos.Count; j++)
+                        {
+                            if(ArbolPri.Nodos[j].DirNodo1 != ArbolPri.raiz)
+                            {
+                                ArbolPri.Nodos.Remove(ArbolPri.Nodos[j]);
+                            }
+                        }
+                    }
+                    if(todosDatos.Count == 0 && arbolpri)
+                    {
+                        atributos[campoArbPri - 1].DirIndice = -1;
+                        dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
+                    }
                     break;
                 }
             }
@@ -534,6 +562,10 @@ namespace ProyectoArchivos
             if(todosDatos.Count == 0)
             {
                 selEntidad.DirDatos = -1;
+            }else
+            {
+                selEntidad.DirDatos = Convert.ToInt64(todosDatos[0][0]);
+                dic.escribeEntidad(selEntidad.DirEnt, selEntidad);
             }
             ordena();           
             llenaDgvEst();       
@@ -544,6 +576,7 @@ namespace ProyectoArchivos
             buscaidxP();
             buscaidxS();
             buscacve();
+            buscarArbolP();
             rowselec = dataGridView1.SelectedCells[0].Value.ToString().Replace("\0", "");
             for (int i=0; i < todosDatos.Count; i++)
             {
@@ -559,6 +592,36 @@ namespace ProyectoArchivos
                     {
                         archidxS.eliminarDato(todosDatos[i][campoidxS], todosDatos[i][0]);
                         actualizaDataidxs();
+                    }
+                    if (arbolpri)
+                    {
+                        ArbolPri.elimina(todosDatos[i][campoArbPri].Replace("\0", ""), Convert.ToInt64(todosDatos[i][0].Replace("\0", "")));
+                        ArbolPri.escribetodo();
+                        if (todosDatos.Count == 4)
+                        {
+                            ArbolPri.Nodos[ArbolPri.lugarLista(ArbolPri.raiz)].Tipo = 'H';
+                        }
+                        ArbolPri.escribetodo();
+                        ArbolPri.leeDatos(Convert.ToInt64(ArbolPri.raiz), 4);
+                        atributos[campoArbPri - 1].DirIndice = ArbolPri.raiz;
+                        dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
+                        escribeArbolPrim();
+                    }
+                    if (todosDatos.Count < 4 && arbolpri)
+                    {
+                        ArbolPri.Nodos[ArbolPri.lugarLista(ArbolPri.raiz)].Tipo = 'H';
+                        for (int j = 0; j < ArbolPri.Nodos.Count; j++)
+                        {
+                            if (ArbolPri.Nodos[j].DirNodo1 != ArbolPri.raiz)
+                            {
+                                ArbolPri.Nodos.Remove(ArbolPri.Nodos[j]);
+                            }
+                        }
+                    }
+                    if (todosDatos.Count == 0 && arbolpri)
+                    {
+                        atributos[campoArbPri - 1].DirIndice = -1;
+                        dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
                     }
                     break;
                 }
@@ -587,6 +650,14 @@ namespace ProyectoArchivos
                 atributos[campoidxS - 1].DirIndice = 0;
                 dic.escribeAtributo(atributos[campoidxS - 1].DirAt, atributos[campoidxS - 1]);
             }
+            if (arbolpri)
+            {
+                ArbolPri.inserta(datosAux[campoArbPri], Convert.ToInt64(datosAux[0]));
+                ArbolPri.escribetodo();
+                atributos[campoArbPri - 1].DirIndice = ArbolPri.raiz;
+                dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
+                escribeArbolPrim();
+            }
 
             ordena();
             
@@ -594,6 +665,11 @@ namespace ProyectoArchivos
         }
 
         private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TabDatos_Click(object sender, EventArgs e)
         {
 
         }

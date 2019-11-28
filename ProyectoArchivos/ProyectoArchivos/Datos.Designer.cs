@@ -61,8 +61,6 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.dataGridView5 = new System.Windows.Forms.DataGridView();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label5 = new System.Windows.Forms.Label();
             this.tipooo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dirnodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ap1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,6 +72,8 @@
             this.ap4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dat4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ap5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridView7 = new System.Windows.Forms.DataGridView();
             this.dataGridView6 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -86,7 +86,7 @@
             this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridView7 = new System.Windows.Forms.DataGridView();
+            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.TabDatos.SuspendLayout();
@@ -99,8 +99,8 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -190,6 +190,7 @@
             this.TabDatos.Size = new System.Drawing.Size(860, 336);
             this.TabDatos.TabIndex = 0;
             this.TabDatos.Text = "Datos";
+            this.TabDatos.Click += new System.EventHandler(this.TabDatos_Click);
             // 
             // button1
             // 
@@ -424,30 +425,6 @@
             this.dataGridView5.Size = new System.Drawing.Size(836, 290);
             this.dataGridView5.TabIndex = 0;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tabPage2.Controls.Add(this.dataGridView7);
-            this.tabPage2.Controls.Add(this.dataGridView6);
-            this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(860, 336);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Arbol B+ Secundario";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.label5.Location = new System.Drawing.Point(376, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(163, 18);
-            this.label5.TabIndex = 48;
-            this.label5.Text = "Arbol Idx Secundario";
-            // 
             // tipooo
             // 
             this.tipooo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
@@ -519,6 +496,27 @@
             this.ap5.Name = "ap5";
             this.ap5.Width = 80;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tabPage2.Controls.Add(this.dataGridView7);
+            this.tabPage2.Controls.Add(this.dataGridView6);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(860, 336);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "Arbol B+ Secundario";
+            // 
+            // dataGridView7
+            // 
+            this.dataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView7.Location = new System.Drawing.Point(623, 30);
+            this.dataGridView7.Name = "dataGridView7";
+            this.dataGridView7.Size = new System.Drawing.Size(229, 290);
+            this.dataGridView7.TabIndex = 50;
+            // 
             // dataGridView6
             // 
             this.dataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -534,9 +532,9 @@
             this.dataGridViewTextBoxColumn9,
             this.dataGridViewTextBoxColumn10,
             this.dataGridViewTextBoxColumn11});
-            this.dataGridView6.Location = new System.Drawing.Point(24, 30);
+            this.dataGridView6.Location = new System.Drawing.Point(8, 30);
             this.dataGridView6.Name = "dataGridView6";
-            this.dataGridView6.Size = new System.Drawing.Size(559, 290);
+            this.dataGridView6.Size = new System.Drawing.Size(599, 290);
             this.dataGridView6.TabIndex = 49;
             // 
             // dataGridViewTextBoxColumn1
@@ -610,13 +608,16 @@
             this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
             this.dataGridViewTextBoxColumn11.Width = 80;
             // 
-            // dataGridView7
+            // label5
             // 
-            this.dataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView7.Location = new System.Drawing.Point(609, 30);
-            this.dataGridView7.Name = "dataGridView7";
-            this.dataGridView7.Size = new System.Drawing.Size(243, 290);
-            this.dataGridView7.TabIndex = 50;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.DarkSlateBlue;
+            this.label5.Location = new System.Drawing.Point(376, 9);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(163, 18);
+            this.label5.TabIndex = 48;
+            this.label5.Text = "Arbol Idx Secundario";
             // 
             // Datos
             // 
@@ -645,8 +646,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
