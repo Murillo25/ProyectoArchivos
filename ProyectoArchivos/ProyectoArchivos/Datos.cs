@@ -176,6 +176,21 @@ namespace ProyectoArchivos
             }
 
         }
+        int campoArbolS;
+        bool arbolS;
+        public void buscaArbolS()
+        {
+            for (int i = 0; i < atributos.Count; i++)
+            {
+                if (atributos[i].TipoIdxAt == 5)
+                {
+                    campoArbolS = i + 1;
+                    arbolS = true;
+                    break;
+                }
+            }
+
+        }
         int campoArbPri;
         bool arbolpri;
         public void buscarArbolP()
@@ -266,6 +281,7 @@ namespace ProyectoArchivos
             buscaidxP();
             buscaidxS();
             buscarArbolP();
+            buscaArbolS();
 
             
             
@@ -315,9 +331,23 @@ namespace ProyectoArchivos
                     escribeArbolPrim();
                 }
             }
+
+            if (arbolS)
+            {
+                ruta = carpeta + @"\" + atributos[campoArbolS - 1].IdHex + ".idx";
+                ArbolPri = new ArboolB_(5, ruta, atributos[campoArbolS - 1].LongAt);
+
+                if (atributos[campoArbolS - 1].DirIndice != -1)
+                {
+                    ArbolSec.raiz = Convert.ToInt32(atributos[campoArbolS - 1].DirIndice);
+                    ArbolSec.leeDatos(Convert.ToInt32(atributos[campoArbolS - 1].DirIndice), atributos[campoArbolS - 1].LongAt);
+                    //escribeArbolS();
+                }
+            }
             last();
             llenaDgvEst();
         }
+        ArbolSec ArbolSec;
 
         bool idxS;
         int campoidxS;
@@ -425,6 +455,36 @@ namespace ProyectoArchivos
                 cnt = 2;
             }
         }
+
+        public void escribeArbolS()
+        {
+            int cnt = 2;
+            dataGridView6.Rows.Clear();
+            for (int i = 0; i < ArbolPri.Nodos.Count; i++)
+            {
+                dataGridView6.Rows.Add();
+                dataGridView6.Rows[dataGridView5.Rows.Count - 2].Cells[0].Value = ArbolSec.Nodos[i].Tipo.ToString();
+                dataGridView6.Rows[dataGridView5.Rows.Count - 2].Cells[1].Value = ArbolSec.Nodos[i].DirNodo1.ToString();
+                for (int j = 0; j < ArbolPri.Nodos[i].Claves.Count; j++)
+                {
+                    dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells[cnt].Value = ArbolSec.Nodos[i].Apuntadores1[j].ToString();
+                    cnt++;
+                    dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells[cnt].Value = ArbolSec.Nodos[i].Claves[j].ToString();
+                    cnt++;
+                }
+                if (ArbolSec.Nodos[i].Tipo == 'H')
+                {
+                    dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells[dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells.Count - 1].Value = ArbolSec.Nodos[i].Apuntadores1[ArbolSec.Nodos[i].Apuntadores1.Count - 1].ToString();
+                }
+                else
+                {
+                    dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells[cnt].Value = ArbolSec.Nodos[i].Apuntadores1[ArbolSec.Nodos[i].Apuntadores1.Count - 1].ToString();
+                }
+                cnt = 2;
+            }
+        }
+
+
 
         public void buscaAux()
         {

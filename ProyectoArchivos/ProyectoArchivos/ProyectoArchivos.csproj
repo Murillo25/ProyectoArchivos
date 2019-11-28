@@ -50,6 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArbolSec.cs" />
     <Compile Include="ArboolB+.cs" />
     <Compile Include="ArchIndiceSec.cs" />
     <Compile Include="ArchivoBin.cs" />
