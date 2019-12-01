@@ -335,13 +335,13 @@ namespace ProyectoArchivos
             if (arbolS)
             {
                 ruta = carpeta + @"\" + atributos[campoArbolS - 1].IdHex + ".idx";
-                ArbolPri = new ArboolB_(5, ruta, atributos[campoArbolS - 1].LongAt);
+                ArbolSec = new ArbolSec(5, ruta, atributos[campoArbolS - 1].LongAt);
 
                 if (atributos[campoArbolS - 1].DirIndice != -1)
                 {
                     ArbolSec.raiz = Convert.ToInt32(atributos[campoArbolS - 1].DirIndice);
                     ArbolSec.leeDatos(Convert.ToInt32(atributos[campoArbolS - 1].DirIndice), atributos[campoArbolS - 1].LongAt);
-                    //escribeArbolS();
+                    escribeArbolS();
                 }
             }
             last();
@@ -387,6 +387,14 @@ namespace ProyectoArchivos
                         archivo.Close();
                     }
                 }
+                if (arbolS)
+                {
+                    File.Delete(ArbolSec.nombreArch);
+                    using (FileStream archivo = new FileStream(ArbolSec.nombreArch, FileMode.Create))
+                    {
+                        archivo.Close();
+                    }
+                }
                 entidades[sele].DirDatos = archivoDatos.dir;
             }
             if (idxP)
@@ -425,6 +433,14 @@ namespace ProyectoArchivos
                 dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
                 ArbolPri.escribetodo();
             }
+            if (arbolS)
+            {
+                ArbolSec.inserta(datosAux[campoArbolS], Convert.ToInt64(datosAux[0]));
+                escribeArbolS();
+                atributos[campoArbolS - 1].DirIndice = ArbolSec.raiz;
+                dic.escribeAtributo(atributos[campoArbolS - 1].DirAt, atributos[campoArbolS - 1]);
+                ArbolSec.escribetodo();
+            }
             dic.escribeEntidad(entidades[sele].DirEnt, entidades[sele]);
             llenaDgvEst();
         }
@@ -460,12 +476,12 @@ namespace ProyectoArchivos
         {
             int cnt = 2;
             dataGridView6.Rows.Clear();
-            for (int i = 0; i < ArbolPri.Nodos.Count; i++)
+            for (int i = 0; i < ArbolSec.Nodos.Count; i++)
             {
                 dataGridView6.Rows.Add();
-                dataGridView6.Rows[dataGridView5.Rows.Count - 2].Cells[0].Value = ArbolSec.Nodos[i].Tipo.ToString();
-                dataGridView6.Rows[dataGridView5.Rows.Count - 2].Cells[1].Value = ArbolSec.Nodos[i].DirNodo1.ToString();
-                for (int j = 0; j < ArbolPri.Nodos[i].Claves.Count; j++)
+                dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells[0].Value = ArbolSec.Nodos[i].Tipo.ToString();
+                dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells[1].Value = ArbolSec.Nodos[i].DirNodo1.ToString();
+                for (int j = 0; j < ArbolSec.Nodos[i].Claves.Count; j++)
                 {
                     dataGridView6.Rows[dataGridView6.Rows.Count - 2].Cells[cnt].Value = ArbolSec.Nodos[i].Apuntadores1[j].ToString();
                     cnt++;
@@ -589,6 +605,21 @@ namespace ProyectoArchivos
                         escribeArbolPrim();
                     }
 
+                    if (arbolS)
+                    {
+                        ArbolSec.elimina(todosDatos[i][campoArbolS].Replace("\0", ""), Convert.ToInt64(todosDatos[i][0].Replace("\0", "")));
+                        ArbolSec.escribetodo();
+                        if (todosDatos.Count == 4)
+                        {
+                            ArbolSec.Nodos[ArbolSec.lugarLista(ArbolSec.raiz)].Tipo = 'H';
+                        }
+                        ArbolSec.escribetodo();
+                        ArbolSec.leeDatos(Convert.ToInt64(ArbolSec.raiz), 4);
+                        atributos[campoArbolS - 1].DirIndice = ArbolSec.raiz;
+                        dic.escribeAtributo(atributos[campoArbolS - 1].DirAt, atributos[campoArbolS - 1]);
+                        escribeArbolS();
+                    }
+
                     borra = todosDatos[i][0].Replace("\0", "");
                     todosDatos.RemoveAt(i);
                     if (todosDatos.Count < 4 && arbolpri)
@@ -606,6 +637,11 @@ namespace ProyectoArchivos
                     {
                         atributos[campoArbPri - 1].DirIndice = -1;
                         dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
+                    }
+                    if (todosDatos.Count == 0 && arbolS)
+                    {
+                        atributos[campoArbolS - 1].DirIndice = -1;
+                        dic.escribeAtributo(atributos[campoArbolS - 1].DirAt, atributos[campoArbolS - 1]);
                     }
                     break;
                 }
@@ -683,6 +719,26 @@ namespace ProyectoArchivos
                         atributos[campoArbPri - 1].DirIndice = -1;
                         dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
                     }
+                    if (arbolS)
+                    {
+                        ArbolSec.elimina(todosDatos[i][campoArbolS].Replace("\0", ""), Convert.ToInt64(todosDatos[i][0].Replace("\0", "")));
+                        ArbolSec.escribetodo();
+                        if (todosDatos.Count == 4)
+                        {
+                            ArbolSec.Nodos[ArbolSec.lugarLista(ArbolSec.raiz)].Tipo = 'H';
+                        }
+                        ArbolSec.escribetodo();
+                        ArbolSec.leeDatos(Convert.ToInt64(ArbolSec.raiz), 4);
+                        atributos[campoArbolS - 1].DirIndice = ArbolSec.raiz;
+                        dic.escribeAtributo(atributos[campoArbolS - 1].DirAt, atributos[campoArbolS - 1]);
+                        escribeArbolS();
+                    }
+                    if (todosDatos.Count == 0 && arbolS)
+                    {
+                        atributos[campoArbolS - 1].DirIndice = -1;
+                        dic.escribeAtributo(atributos[campoArbolS - 1].DirAt, atributos[campoArbolS - 1]);
+                    }
+
                     break;
                 }
             }
@@ -718,6 +774,14 @@ namespace ProyectoArchivos
                 dic.escribeAtributo(atributos[campoArbPri - 1].DirAt, atributos[campoArbPri - 1]);
                 escribeArbolPrim();
             }
+            if (arbolS)
+            {
+                ArbolSec.inserta(datosAux[campoArbolS], Convert.ToInt64(datosAux[0]));
+                escribeArbolS();
+                atributos[campoArbolS - 1].DirIndice = ArbolSec.raiz;
+                dic.escribeAtributo(atributos[campoArbolS - 1].DirAt, atributos[campoArbolS - 1]);
+                ArbolSec.escribetodo();
+            }
 
             ordena();
             
@@ -732,6 +796,44 @@ namespace ProyectoArchivos
         private void TabDatos_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dataGridView6_DoubleClick(object sender, EventArgs e)
+        {
+            //MessageBox.Show(dataGridView6.SelectedRows[0].ToString());
+            if(dataGridView6.SelectedRows[0] == null)
+            {
+                return;
+            }
+            DatoDir.Rows.Clear();
+            if (dataGridView6.SelectedRows[0].Cells[0].Value.ToString() == "H")
+            {
+                for(int i = 2; i< dataGridView6.SelectedRows[0].Cells.Count -1; i+=2)
+                {
+                    if(dataGridView6.SelectedRows[0].Cells[i].Value != null)
+                    {
+                        DatoDir.Rows.Add(dataGridView6.SelectedRows[0].Cells[i+1].Value.ToString(), dataGridView6.SelectedRows[0].Cells[i].Value.ToString());
+                    }else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void direcciones_DoubleClick(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void DatoDir_DoubleClick(object sender, EventArgs e)
+        {
+            ArbolSec.leeSC(Convert.ToInt64(DatoDir.SelectedRows[0].Cells[1].Value.ToString()));
+            direcciones.Rows.Clear();
+            for (int i = 0; i < ArbolSec.secundario.Count; i++)
+            {
+                direcciones.Rows.Add(ArbolSec.secundario[i]);
+            }
         }
 
         private void llenaDatagrid()

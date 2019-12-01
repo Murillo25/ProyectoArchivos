@@ -222,23 +222,38 @@ namespace ProyectoArchivos
             {
                 Nodos.Add(new NodoArbol('H', -1, 5, tamCve));
                 EscribeNodoAlFinal(Nodos[0]);
-                Nodos[0].insertaDato(k, p);
+                Nodos[0].insertaDato(k, 65);
+                secundario = new List<long>();
+                inicializa();
+                insertaLista(p);
+                escribeSC();
                 raiz = Convert.ToInt32(Nodos[0].DirNodo1);
                 SobreEscribeNodo(Nodos[0]);
-
+                return;
+            }
+            if (existe(k))
+            {
+                long dir = regresaDirLista(k);
+                secundario = new List<long>();
+                leeSC(dir);
+                insertaLista(p);
+                sobreescribeSec(dir);                                
             }
             else
             {
+                secundario = new List<long>();
+                inicializa();
+                insertaLista(p);
+                escribeSC();
                 nodoHoja = buscaNodoHoja(k, raiz, true);
                 if (Nodos[lugarLista(nodoHoja)].hayEspacio())
                 {
-                    Nodos[lugarLista(nodoHoja)].insertaDato(k, p);
+                    Nodos[lugarLista(nodoHoja)].insertaDato(k, dirActual-2048);
                     SobreEscribeNodo(Nodos[lugarLista(nodoHoja)]);
                 }
                 else
                 {
                     Nodos.Add(new NodoArbol(Nodos[lugarLista(nodoHoja)].Tipo, -1, 5, tamCve));
-
                     EscribeNodoAlFinal(Nodos[Nodos.Count - 1]);
                     Nodos[Nodos.Count - 1].Apuntadores1 = new List<long>(Nodos[lugarLista(nodoHoja)].Apuntadores1);
                     Nodos[Nodos.Count - 1].Claves = new List<string>(Nodos[lugarLista(nodoHoja)].Claves);
@@ -249,14 +264,14 @@ namespace ProyectoArchivos
                     {
 
                         //Nodos[lugarLista(nodoHoja)].Apuntadores1[Nodos[lugarLista(nodoHoja)].Apuntadores1.Count - 1] = Nodos[Nodos.Count - 1].DirNodo1;
-                        Nodos[lugarLista(nodoHoja)].insertaDato(k, p);
+                        Nodos[lugarLista(nodoHoja)].insertaDato(k, dirActual - 2048-65);
 
                     }
                     else
                     {
 
                         //Nodos[Nodos.Count - 1].Apuntadores1[Nodos[Nodos.Count - 1].Apuntadores1.Count - 1] = Nodos[lugarLista(nodoHoja)].DirNodo1;
-                        Nodos[Nodos.Count - 1].insertaDato(k, p);
+                        Nodos[Nodos.Count - 1].insertaDato(k, dirActual - 2048-65);
                     }
                     SobreEscribeNodo(Nodos[lugarLista(nodoHoja)]);
                     SobreEscribeNodo(Nodos[Nodos.Count - 1]);
@@ -485,13 +500,20 @@ namespace ProyectoArchivos
 
         public void elimina(string k, long p)
         {
-            long nodo = buscaNodoHoja(k, raiz, true);
-            if (Nodos[lugarLista(raiz)].Tipo == 'H')
+            long dx = regresaDirLista(k);
+            leeSC(dx);
+            eliminaLista(p);
+            sobreescribeSec(dx);
+            if (siYanoTiene(dx))
             {
-                Nodos[lugarLista(raiz)].borraEntrada(k, p);
-                return;
+                long nodo = buscaNodoHoja(k, raiz, true);
+                if (Nodos[lugarLista(raiz)].Tipo == 'H')
+                {
+                    Nodos[lugarLista(raiz)].borraEntrada(k, dx);
+                    return;
+                }
+                borra_entrada(nodo, k, dx);
             }
-            borra_entrada(nodo, k, p);
         }
 
         public void borra_entrada(long dir, string k, long p)
@@ -813,7 +835,7 @@ namespace ProyectoArchivos
             }
             if (!existeDir(vecino) && Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1] != -1)
             {
-                vecino = 65;
+                vecino = 10305;
             }
 
             return vecino;
@@ -834,9 +856,6 @@ namespace ProyectoArchivos
         public bool existe(string k)
         {
             bool res = false;
-
-            long nodo = buscaNodoHoja(k, -1, true);
-
             for (int i = 0; i < Nodos.Count; i++)
             {
                 if (Nodos[i].Claves.Contains(k) && Nodos[i].Tipo == 'H')
@@ -847,11 +866,19 @@ namespace ProyectoArchivos
 
             return res;
         }
+        public bool siYanoTiene(long dire)
+        {
+            bool res = false;
+            secundario = new List<long>();
+            leeSC(dire);
+            if (secundario[0] == -1)
+                res = true;
+            return res;
+        }
         public long regresaDirLista(string k)
         {
             long res = -1;
-
-            long nodo = buscaNodoHoja(k, -1, true);
+            
 
             for (int i = 0; i < Nodos.Count; i++)
             {
@@ -888,7 +915,8 @@ namespace ProyectoArchivos
             {
                 if (secundario[i] == dir)
                 {
-                    secundario[i] = -1;
+                    secundario.Remove(dir);
+                    secundario.Add(-1);
                     break;
                 }
             }
@@ -898,7 +926,7 @@ namespace ProyectoArchivos
             secundario.Clear();
             for (int i = 0; i < 256; i++)
             {
-                secundario[i] = -1;
+                secundario.Add(-1);
             }
         }
         public void escribeSC()
@@ -917,12 +945,27 @@ namespace ProyectoArchivos
             archivo.Close();
             dirActual += 2048;
         }
-        public void leeSC(long dir)
+        public void sobreescribeSec(long dir)
+        {
+            using (archivo = new FileStream(nombreArch, FileMode.Open))
+            {
+                archivo.Position = dir;
+                using (BinaryWriter bw = new BinaryWriter(archivo))
+                {
+                    for (int i = 0; i < 256; i++)
+                    {
+                        bw.Write(secundario[i]);
+                    }
+                }
+            }
+            archivo.Close();
+        }
+        public void leeSC(long dire)
         {
             secundario.Clear();
             using (archivo = new FileStream(nombreArch, FileMode.Open))
             {
-                archivo.Position = dir;
+                archivo.Position = dire;
                 using (BinaryReader rw = new BinaryReader(archivo))
                 {
                     for (int i = 0; i < 256; i++)

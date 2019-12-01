@@ -73,7 +73,11 @@
             this.dat4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ap5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridView7 = new System.Windows.Forms.DataGridView();
+            this.direcciones = new System.Windows.Forms.DataGridView();
+            this.Direcci = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DatoDir = new System.Windows.Forms.DataGridView();
+            this.dat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lista = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView6 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -87,10 +91,6 @@
             this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label5 = new System.Windows.Forms.Label();
-            this.dataGridView8 = new System.Windows.Forms.DataGridView();
-            this.Direcci = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lista = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1.SuspendLayout();
             this.TabControl.SuspendLayout();
             this.TabDatos.SuspendLayout();
@@ -103,9 +103,9 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.direcciones)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DatoDir)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView8)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -504,8 +504,8 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.tabPage2.Controls.Add(this.dataGridView8);
-            this.tabPage2.Controls.Add(this.dataGridView7);
+            this.tabPage2.Controls.Add(this.direcciones);
+            this.tabPage2.Controls.Add(this.DatoDir);
             this.tabPage2.Controls.Add(this.dataGridView6);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -515,16 +515,43 @@
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Arbol B+ Secundario";
             // 
-            // dataGridView7
+            // direcciones
             // 
-            this.dataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView7.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.direcciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.direcciones.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Direcci});
+            this.direcciones.Location = new System.Drawing.Point(711, 30);
+            this.direcciones.Name = "direcciones";
+            this.direcciones.Size = new System.Drawing.Size(141, 290);
+            this.direcciones.TabIndex = 51;
+            this.direcciones.DoubleClick += new System.EventHandler(this.direcciones_DoubleClick);
+            // 
+            // Direcci
+            // 
+            this.Direcci.HeaderText = "Direcciones";
+            this.Direcci.Name = "Direcci";
+            // 
+            // DatoDir
+            // 
+            this.DatoDir.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DatoDir.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dat,
             this.lista});
-            this.dataGridView7.Location = new System.Drawing.Point(532, 30);
-            this.dataGridView7.Name = "dataGridView7";
-            this.dataGridView7.Size = new System.Drawing.Size(161, 290);
-            this.dataGridView7.TabIndex = 50;
+            this.DatoDir.Location = new System.Drawing.Point(532, 30);
+            this.DatoDir.Name = "DatoDir";
+            this.DatoDir.Size = new System.Drawing.Size(161, 290);
+            this.DatoDir.TabIndex = 50;
+            this.DatoDir.DoubleClick += new System.EventHandler(this.DatoDir_DoubleClick);
+            // 
+            // dat
+            // 
+            this.dat.HeaderText = "Dato";
+            this.dat.Name = "dat";
+            // 
+            // lista
+            // 
+            this.lista.HeaderText = "Dirección Lista";
+            this.lista.Name = "lista";
             // 
             // dataGridView6
             // 
@@ -545,6 +572,7 @@
             this.dataGridView6.Name = "dataGridView6";
             this.dataGridView6.Size = new System.Drawing.Size(518, 290);
             this.dataGridView6.TabIndex = 49;
+            this.dataGridView6.DoubleClick += new System.EventHandler(this.dataGridView6_DoubleClick);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -628,31 +656,6 @@
             this.label5.TabIndex = 48;
             this.label5.Text = "Arbol Idx Secundario";
             // 
-            // dataGridView8
-            // 
-            this.dataGridView8.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView8.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Direcci});
-            this.dataGridView8.Location = new System.Drawing.Point(711, 30);
-            this.dataGridView8.Name = "dataGridView8";
-            this.dataGridView8.Size = new System.Drawing.Size(141, 290);
-            this.dataGridView8.TabIndex = 51;
-            // 
-            // Direcci
-            // 
-            this.Direcci.HeaderText = "Direcciones";
-            this.Direcci.Name = "Direcci";
-            // 
-            // dat
-            // 
-            this.dat.HeaderText = "Dato";
-            this.dat.Name = "dat";
-            // 
-            // lista
-            // 
-            this.lista.HeaderText = "Dirección Lista";
-            this.lista.Name = "lista";
-            // 
             // Datos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -680,9 +683,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView5)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.direcciones)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DatoDir)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView8)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -735,7 +738,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dat4;
         private System.Windows.Forms.DataGridViewTextBoxColumn ap5;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataGridView dataGridView7;
+        private System.Windows.Forms.DataGridView DatoDir;
         private System.Windows.Forms.DataGridView dataGridView6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
@@ -749,7 +752,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DataGridView dataGridView8;
+        private System.Windows.Forms.DataGridView direcciones;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direcci;
         private System.Windows.Forms.DataGridViewTextBoxColumn dat;
         private System.Windows.Forms.DataGridViewTextBoxColumn lista;
