@@ -240,7 +240,10 @@ namespace ProyectoArchivos
         
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            button1.Visible = false;
+            bt_eliminaEntidad.Visible = true;
+            bt_modificaEntidad.Visible = true;
+            bt_nuevaEntidad.Visible = true;
                 //Insercción
             String creaDatos = carpeta + @"\" + tb_nombreEnt.Text + ".dat";
 
@@ -346,8 +349,9 @@ namespace ProyectoArchivos
         {
             OpenFileDialog openDialog;
             openDialog = new OpenFileDialog();
-
-
+            bt_eliminaEntidad.Enabled = true;
+            bt_modificaEntidad.Enabled = true;
+            bt_nuevaEntidad.Enabled = true;
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
                 cb_SelEnt.Items.Clear();
@@ -364,8 +368,16 @@ namespace ProyectoArchivos
                 {
                     entidadT = new List<Entidad>();
                     entidadT = archBB.Entidades;
-                    lb_cab.Text = entidadT[0].DirEnt.ToString();
-                    actualizaTablas();
+                    FileInfo nuevo = new FileInfo(archBB.NombresArch);
+                    if (nuevo.Length == 8)
+                    {
+                        lb_cab.Text = "-1";
+                    }
+                    else
+                    {
+                        lb_cab.Text = entidadT[0].DirEnt.ToString();
+                        actualizaTablas();
+                    }
                     carpetaE = true;
                     MessageBox.Show("Lectura completada");
                     ArchivoBin.dir = archBB.PosMayor;
@@ -381,6 +393,9 @@ namespace ProyectoArchivos
 
         private void crearToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            bt_eliminaEntidad.Enabled = true;
+            bt_modificaEntidad.Enabled = true;
+            bt_nuevaEntidad.Enabled = true;
             //Obtener ruta y nombre para la carpeta principal
             SaveFileDialog saveAsDialog;
             saveAsDialog = new SaveFileDialog();

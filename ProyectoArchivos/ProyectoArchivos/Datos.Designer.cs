@@ -285,9 +285,9 @@
             this.label4.ForeColor = System.Drawing.Color.DarkSlateBlue;
             this.label4.Location = new System.Drawing.Point(187, 42);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 18);
+            this.label4.Size = new System.Drawing.Size(83, 18);
             this.label4.TabIndex = 43;
-            this.label4.Text = "Sel Entidad:";
+            this.label4.Text = "Sel Tabla:";
             // 
             // cb_SelEnt
             // 
@@ -329,9 +329,9 @@
             this.label2.ForeColor = System.Drawing.Color.DarkSlateBlue;
             this.label2.Location = new System.Drawing.Point(458, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(156, 18);
+            this.label2.Size = new System.Drawing.Size(142, 18);
             this.label2.TabIndex = 46;
-            this.label2.Text = "Indice Secundario 1";
+            this.label2.Text = "Indice Secundario";
             // 
             // dataGridView3
             // 

@@ -538,7 +538,7 @@ namespace ProyectoArchivos
                     if (vecino != -1)
                     {
                         kPrima = buscaClavePapa(dir, vecino);
-                        if ((Nodos[lugarLista(dir)].Apuntadores1.Count + Nodos[lugarLista(dir)].Apuntadores1.Count) <= 5)
+                        if ((Nodos[lugarLista(dir)].Claves.Count + Nodos[lugarLista(vecino)].Claves.Count) <= 4)
                         {
                             juntaNodos(dir, kPrima, vecino);
                         }
@@ -794,18 +794,35 @@ namespace ProyectoArchivos
                 if (Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1] != -1)
                 {
                     vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
+                    if (Nodos[lugarLista(vecino)].Claves.Count >= 3)
+                    {
+                        return vecino;
+                    }
+                    else
+                    {
+                        long padre = buscaPapa(nodo);
+                        int index = Nodos[lugarLista(padre)].Apuntadores1.IndexOf(nodo);
+                        if (index > 0)
+                        {
+                            vecino = Nodos[lugarLista(padre)].Apuntadores1[index - 1];
+                        }
+                        else
+                        {
+                            vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
+                        }
+                    }
                 }
                 else
                 {
                     long padre = buscaPapa(nodo);
                     int index = Nodos[lugarLista(padre)].Apuntadores1.IndexOf(nodo);
-                    if (Nodos[lugarLista(padre)].Apuntadores1[index - 1] != Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1])
+                    if (index > 0)
                     {
                         vecino = Nodos[lugarLista(padre)].Apuntadores1[index - 1];
                     }
                     else
                     {
-                        vecino = Nodos[lugarLista(padre)].Apuntadores1[index];
+                        vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
                     }
                 }
             }
@@ -815,29 +832,26 @@ namespace ProyectoArchivos
                 if (padre != -1)
                 {
                     int index = Nodos[lugarLista(padre)].Apuntadores1.IndexOf(nodo);
-                    if (index != -1)
+                    if (index > 0)
                     {
-                        if (Nodos[lugarLista(padre)].Apuntadores1[index] != Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1])
-                        {
-                            vecino = Nodos[lugarLista(padre)].Apuntadores1[index - 1];
-                        }
-                        else
-                        {
-                            vecino = Nodos[lugarLista(padre)].Apuntadores1[index];
-                        }
+                        vecino = Nodos[lugarLista(padre)].Apuntadores1[index - 1];
+                    }
+                    else
+                    {
+                        vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
                     }
                 }
             }
-
             if (vecino == -1 && Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1] != -1)
             {
                 vecino = Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1];
             }
-            if (!existeDir(vecino) && Nodos[lugarLista(nodo)].Apuntadores1[Nodos[lugarLista(nodo)].Apuntadores1.Count - 1] != -1)
+            /*
+            if (!existeDir(vecino) && Nodos[encuentraLugar(nodo)].Apuntadores1[Nodos[encuentraLugar(nodo)].Apuntadores1.Count - 1] != -1 && Nodos.Count == 3)
             {
                 vecino = 10305;
             }
-
+            */
             return vecino;
         }
         public bool existeDir(long dir)

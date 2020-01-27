@@ -371,7 +371,7 @@ namespace ProyectoArchivos
                     }
                 }
 
-                if (idxP)
+                if (idxS)
                 {
                     File.Delete(archidxS.nombreArch);
                     using (FileStream archivo = new FileStream(archidxS.nombreArch, FileMode.Create))

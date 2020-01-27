@@ -193,9 +193,9 @@
             this.label2.ForeColor = System.Drawing.Color.DarkSlateBlue;
             this.label2.Location = new System.Drawing.Point(379, 27);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 24);
+            this.label2.Size = new System.Drawing.Size(58, 24);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Archivo:";
+            this.label2.Text = "Ruta:";
             // 
             // tb_Archivo
             // 
@@ -222,9 +222,9 @@
             this.label4.ForeColor = System.Drawing.Color.DarkSlateBlue;
             this.label4.Location = new System.Drawing.Point(136, 37);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 18);
+            this.label4.Size = new System.Drawing.Size(83, 18);
             this.label4.TabIndex = 17;
-            this.label4.Text = "Sel Entidad:";
+            this.label4.Text = "Sel Tabla:";
             // 
             // menuStrip1
             // 

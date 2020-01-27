@@ -31,12 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Principal));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Id_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nombre_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Dir_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Dir_Atributo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Dir_dar = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Dir_sig_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.bt_nuevaEntidad = new System.Windows.Forms.Button();
             this.bt_modificaEntidad = new System.Windows.Forms.Button();
             this.bt_eliminaEntidad = new System.Windows.Forms.Button();
@@ -58,6 +52,12 @@
             this.datosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Id_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dir_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dir_Atributo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dir_dar = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dir_sig_Ent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -81,69 +81,36 @@
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView1_RowsRemoved);
             // 
-            // Id_Ent
-            // 
-            this.Id_Ent.HeaderText = "ID_Entidad";
-            this.Id_Ent.Name = "Id_Ent";
-            this.Id_Ent.ReadOnly = true;
-            // 
-            // Nombre_Ent
-            // 
-            this.Nombre_Ent.HeaderText = "Nombre Entidad";
-            this.Nombre_Ent.Name = "Nombre_Ent";
-            this.Nombre_Ent.ReadOnly = true;
-            // 
-            // Dir_Ent
-            // 
-            this.Dir_Ent.HeaderText = "Dir. Entidad";
-            this.Dir_Ent.Name = "Dir_Ent";
-            this.Dir_Ent.ReadOnly = true;
-            // 
-            // Dir_Atributo
-            // 
-            this.Dir_Atributo.HeaderText = "Dir. Atributo";
-            this.Dir_Atributo.Name = "Dir_Atributo";
-            this.Dir_Atributo.ReadOnly = true;
-            // 
-            // Dir_dar
-            // 
-            this.Dir_dar.HeaderText = "Dir. Datos";
-            this.Dir_dar.Name = "Dir_dar";
-            this.Dir_dar.ReadOnly = true;
-            // 
-            // Dir_sig_Ent
-            // 
-            this.Dir_sig_Ent.HeaderText = "Dir. siguiente Entidad";
-            this.Dir_sig_Ent.Name = "Dir_sig_Ent";
-            this.Dir_sig_Ent.ReadOnly = true;
-            // 
             // bt_nuevaEntidad
             // 
+            this.bt_nuevaEntidad.Enabled = false;
             this.bt_nuevaEntidad.Location = new System.Drawing.Point(33, 97);
             this.bt_nuevaEntidad.Name = "bt_nuevaEntidad";
             this.bt_nuevaEntidad.Size = new System.Drawing.Size(107, 31);
             this.bt_nuevaEntidad.TabIndex = 3;
-            this.bt_nuevaEntidad.Text = "Nueva Entidad";
+            this.bt_nuevaEntidad.Text = "Nueva Tabla";
             this.bt_nuevaEntidad.UseVisualStyleBackColor = true;
             this.bt_nuevaEntidad.Click += new System.EventHandler(this.bt_nuevaEntidad_Click);
             // 
             // bt_modificaEntidad
             // 
+            this.bt_modificaEntidad.Enabled = false;
             this.bt_modificaEntidad.Location = new System.Drawing.Point(373, 118);
             this.bt_modificaEntidad.Name = "bt_modificaEntidad";
             this.bt_modificaEntidad.Size = new System.Drawing.Size(107, 31);
             this.bt_modificaEntidad.TabIndex = 4;
-            this.bt_modificaEntidad.Text = "Modifica Entidad";
+            this.bt_modificaEntidad.Text = "Modifica Tabla";
             this.bt_modificaEntidad.UseVisualStyleBackColor = true;
             this.bt_modificaEntidad.Click += new System.EventHandler(this.bt_modificaEntidad_Click);
             // 
             // bt_eliminaEntidad
             // 
+            this.bt_eliminaEntidad.Enabled = false;
             this.bt_eliminaEntidad.Location = new System.Drawing.Point(486, 118);
             this.bt_eliminaEntidad.Name = "bt_eliminaEntidad";
             this.bt_eliminaEntidad.Size = new System.Drawing.Size(107, 31);
             this.bt_eliminaEntidad.TabIndex = 5;
-            this.bt_eliminaEntidad.Text = "Elimina Entidad";
+            this.bt_eliminaEntidad.Text = "Elimina Tabla";
             this.bt_eliminaEntidad.UseVisualStyleBackColor = true;
             this.bt_eliminaEntidad.Click += new System.EventHandler(this.bt_eliminaEntidad_Click);
             // 
@@ -161,20 +128,20 @@
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(29, 60);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(162, 20);
+            this.label1.Size = new System.Drawing.Size(62, 20);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Tabla de entidades";
+            this.label1.Text = "Tablas";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.DarkSlateBlue;
-            this.label2.Location = new System.Drawing.Point(369, 23);
+            this.label2.Location = new System.Drawing.Point(390, 23);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 24);
+            this.label2.Size = new System.Drawing.Size(58, 24);
             this.label2.TabIndex = 9;
-            this.label2.Text = "Archivo:";
+            this.label2.Text = "Ruta:";
             // 
             // tb_Archivo
             // 
@@ -200,9 +167,9 @@
             this.label4.ForeColor = System.Drawing.Color.DarkSlateBlue;
             this.label4.Location = new System.Drawing.Point(370, 84);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(98, 18);
+            this.label4.Size = new System.Drawing.Size(78, 18);
             this.label4.TabIndex = 17;
-            this.label4.Text = "Sel Entidad:";
+            this.label4.Text = "Sel Tabla";
             // 
             // label9
             // 
@@ -252,21 +219,21 @@
             // crearToolStripMenuItem
             // 
             this.crearToolStripMenuItem.Name = "crearToolStripMenuItem";
-            this.crearToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.crearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.crearToolStripMenuItem.Text = "Crear";
             this.crearToolStripMenuItem.Click += new System.EventHandler(this.crearToolStripMenuItem_Click);
             // 
             // abrirToolStripMenuItem
             // 
             this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
-            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.abrirToolStripMenuItem.Text = "Abrir";
             this.abrirToolStripMenuItem.Click += new System.EventHandler(this.abrirToolStripMenuItem_Click);
             // 
             // reiniciarToolStripMenuItem
             // 
             this.reiniciarToolStripMenuItem.Name = "reiniciarToolStripMenuItem";
-            this.reiniciarToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+            this.reiniciarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.reiniciarToolStripMenuItem.Text = "Reiniciar";
             this.reiniciarToolStripMenuItem.Click += new System.EventHandler(this.reiniciarToolStripMenuItem_Click);
             // 
@@ -274,8 +241,8 @@
             // 
             this.entidadesToolStripMenuItem.Enabled = false;
             this.entidadesToolStripMenuItem.Name = "entidadesToolStripMenuItem";
-            this.entidadesToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
-            this.entidadesToolStripMenuItem.Text = "Entidades";
+            this.entidadesToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
+            this.entidadesToolStripMenuItem.Text = "Tablas";
             // 
             // atributosToolStripMenuItem
             // 
@@ -306,6 +273,42 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // Id_Ent
+            // 
+            this.Id_Ent.HeaderText = "ID_Tabla";
+            this.Id_Ent.Name = "Id_Ent";
+            this.Id_Ent.ReadOnly = true;
+            // 
+            // Nombre_Ent
+            // 
+            this.Nombre_Ent.HeaderText = "Nombre Tabla";
+            this.Nombre_Ent.Name = "Nombre_Ent";
+            this.Nombre_Ent.ReadOnly = true;
+            // 
+            // Dir_Ent
+            // 
+            this.Dir_Ent.HeaderText = "Dir. Tabla";
+            this.Dir_Ent.Name = "Dir_Ent";
+            this.Dir_Ent.ReadOnly = true;
+            // 
+            // Dir_Atributo
+            // 
+            this.Dir_Atributo.HeaderText = "Dir. Atributo";
+            this.Dir_Atributo.Name = "Dir_Atributo";
+            this.Dir_Atributo.ReadOnly = true;
+            // 
+            // Dir_dar
+            // 
+            this.Dir_dar.HeaderText = "Dir. Datos";
+            this.Dir_dar.Name = "Dir_dar";
+            this.Dir_dar.ReadOnly = true;
+            // 
+            // Dir_sig_Ent
+            // 
+            this.Dir_sig_Ent.HeaderText = "Dir. siguiente Tabla";
+            this.Dir_sig_Ent.Name = "Dir_sig_Ent";
+            this.Dir_sig_Ent.ReadOnly = true;
+            // 
             // Form_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -333,7 +336,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form_Principal";
-            this.Text = "Manejador de Archivos";
+            this.Text = "Manejador de Bases de datos";
             this.Activated += new System.EventHandler(this.Form_Principal_Activated);
             this.Deactivate += new System.EventHandler(this.Form_Principal_Deactivate);
             this.Load += new System.EventHandler(this.Form_Principal_Load);
@@ -354,12 +357,6 @@
         private System.Windows.Forms.Button bt_modificaEntidad;
         private System.Windows.Forms.Button bt_eliminaEntidad;
         private System.Windows.Forms.TextBox tb_nombreEnt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id_Ent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre_Ent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_Ent;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_Atributo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_dar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_sig_Ent;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_Archivo;
@@ -377,6 +374,12 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem reiniciarToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id_Ent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nombre_Ent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_Ent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_Atributo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_dar;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dir_sig_Ent;
     }
 }
 
